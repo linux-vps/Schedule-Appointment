@@ -1,0 +1,64 @@
+package healthcare.process;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+
+import jakarta.servlet.http.HttpSession;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import healthcare.objects.AppointmentObject;
+import healthcare.objects.UserObject;
+/**
+ * Servlet implementation class CancelAppointment
+ */
+public class CancelAppointment extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public CancelAppointment() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		// Nhận dữ liệu từ form
+        String id = request.getParameter("id");
+        int app_id = Integer.parseInt(id);
+        AppointmentObject newAppointment = new AppointmentObject();
+		Appointment app = new Appointment();
+		newAppointment.setApp_id(app_id);
+		boolean cancelSuccess = app.cancelAppointment(app_id);
+		if (cancelSuccess) {
+
+        	response.sendRedirect("patient-dashboard.jsp?success=true");
+        } else {
+            
+            response.sendRedirect("patient-dashboard.jsp?success=false");
+        }
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		
+		doGet(request, response);
+	}
+
+}
