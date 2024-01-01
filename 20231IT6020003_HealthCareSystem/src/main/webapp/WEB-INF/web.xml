@@ -69,4 +69,34 @@
     <servlet-name>UpdateUserProfile</servlet-name>
     <url-pattern>/UpdateUserProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DoctorDashboard</display-name>
+    <servlet-name>DoctorDashboard</servlet-name>
+    <servlet-class>it6020003.servlet.DoctorDashboard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorDashboard</servlet-name>
+    <url-pattern>/DoctorDashboard</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DoctorProfile</display-name>
+    <servlet-name>DoctorProfile</servlet-name>
+    <servlet-class>it6020003.servlet.DoctorProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorProfile</servlet-name>
+    <url-pattern>/DoctorProfile</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>StatusAppointment</display-name>
+    <servlet-name>StatusAppointment</servlet-name>
+    <servlet-class>it6020003.servlet.StatusAppointment</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StatusAppointment</servlet-name>
+    <url-pattern>/StatusAppointment</url-pattern>
+  </servlet-mapping>
 </web-app>

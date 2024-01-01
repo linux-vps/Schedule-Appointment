@@ -32,6 +32,7 @@ public class LoginControl extends HttpServlet {
 	        // Đăng nhập thành công, lưu thông tin người dùng vào Session
 	        HttpSession session = request.getSession();
 	        session.setAttribute("loggedInUser", loggedInUser);
+	        session.setAttribute("loggedInUserId", loggedInUser.getUser_id());
 	        
 	        //Guild session
 //	        public class YourJavaClass {
@@ -48,11 +49,18 @@ public class LoginControl extends HttpServlet {
 //	                }
 //	            }
 //	        }
+	        String role = loggedInUser.getUser_roles();
+	        System.out.print(role);
+	        if ("p".equals(role)) {
+	        	// Chuyển hướng đến trang chính
+	        	response.sendRedirect("index.jsp");
+	        } else  if ("d".equals(role)) {
+	        	response.sendRedirect("doctor-dashboard.jsp");
+	        } else if ("a".equals(role)) {
+	        	response.sendRedirect("admin.jsp");
+	        }
 	        
 	        
-	        
-	        // Chuyển hướng đến trang chính
-	        response.sendRedirect("index.jsp");
 	    } else {
 	        // Đăng nhập thất bại, chuyển hướng đến trang đăng nhập lại hoặc hiển thị thông báo lỗi
 	        response.sendRedirect("sign.jsp?error=true");
