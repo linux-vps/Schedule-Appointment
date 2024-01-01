@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="healthcare.objects.UserObject" %>
+<%@ page import="it6020003.objects.UserObject" %>
 <%@ page import="jakarta.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html lang="vi">

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="healthcare.objects.UserObject" %>
+<%@ page import="it6020003.objects.UserObject" %>
 <%@ page import="jakarta.servlet.http.HttpSession"%>
-<%@ page import="healthcare.objects.AppointmentObject"%>
-<%@ page import="healthcare.process.Appointment"%>
+<%@ page import="it6020003.objects.AppointmentObject"%>
+<%@ page import="it6020003.process.Appointment"%>
 <%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
@@ -352,7 +352,7 @@
 																			class="btn btn-sm bg-primary-light">
 																			<i class="fas close"></i> Huỷ
 																		</a>		
-																													
+																														
 																	</div>
 																</td>
 															</tr>

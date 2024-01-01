@@ -1,4 +1,4 @@
-package healthcare.process;
+package it6020003.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import healthcare.objects.UserObject;
+
+import it6020003.objects.UserObject;
+import it6020003.process.User;
 
 /**
  * Servlet implementation class UpdateUserProfile

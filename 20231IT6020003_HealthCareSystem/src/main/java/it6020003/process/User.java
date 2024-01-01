@@ -1,12 +1,12 @@
-package healthcare.process;
+package it6020003.process;
 
 import java.util.*;
 
 import java.sql.*;
-import healthcare.objects.*;
-import healthcare.*;
-import healthcare.ConnectionPool;
-import healthcare.ConnectionPoolImpl;
+
+import it6020003.ConnectionPool;
+import it6020003.ConnectionPoolImpl;
+import it6020003.objects.UserObject;
 
 public class User {
 	//Ket noi de lam viec voi csdl
@@ -204,6 +204,116 @@ public class User {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	//search by id
+	public UserObject getUserById(int user_id) {
+		UserObject item = new UserObject();
+		
+		//sql
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tbluser ");
+		sql.append("WHERE user_id = ? ");
+		
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, user_id);
+			
+			//lay tap ket qua
+			ResultSet rs = pre.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					item.setUser_id(rs.getInt("user_id"));
+					item.setUser_name(rs.getString("user_name"));
+					item.setUser_fullname(rs.getString("user_fullname"));
+					item.setUser_birthday(rs.getString("user_birthday"));
+					item.setUser_phone(rs.getString("user_phone"));
+					item.setUser_password(rs.getString("user_password"));
+					item.setUser_email(rs.getString("user_email"));
+					item.setUser_address(rs.getString("user_address"));
+					item.setUser_job(rs.getString("user_job"));
+					item.setUser_jobarea(rs.getString("user_jobarea"));
+					item.setUser_permission(rs.getInt("user_permission"));
+					item.setUser_roles(rs.getString("user_roles"));
+					item.setUser_logined(rs.getInt("user_logined"));
+					item.setUser_created_date(rs.getString("user_created_date"));
+					item.setUser_last_modified(rs.getString("user_last_modified"));
+					item.setUser_last_logined(rs.getString("user_last_logined"));
+					item.setUser_parent_id(rs.getInt("user_parent_id"));
+					item.setUser_actions(rs.getInt("user_actions"));
+					item.setUser_notes(rs.getString("user_notes"));
+				}
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+			//tro ve trang thai an toan cua ket noi
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return item;
+	}
+	public ArrayList<UserObject> getAllDoctor(UserObject similar) {
+		ArrayList<UserObject> items = new ArrayList<>();
+		UserObject item;
+		
+		//sql
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tbluser ");
+		sql.append("WHERE user_roles = 'd' ");
+		sql.append("ORDER BY user_id ASC ");
+		
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			//lay tap ket qua
+			ResultSet rs = pre.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					item = new UserObject();
+					item.setUser_id(rs.getInt("user_id"));
+					item.setUser_name(rs.getString("user_name"));
+					item.setUser_fullname(rs.getString("user_fullname"));
+					item.setUser_birthday(rs.getString("user_birthday"));
+					item.setUser_phone(rs.getString("user_phone"));
+					item.setUser_password(rs.getString("user_password"));
+					item.setUser_email(rs.getString("user_email"));
+					item.setUser_address(rs.getString("user_address"));
+					item.setUser_job(rs.getString("user_job"));
+					item.setUser_jobarea(rs.getString("user_jobarea"));
+					item.setUser_permission(rs.getInt("user_permission"));
+					item.setUser_roles(rs.getString("user_roles"));
+					item.setUser_logined(rs.getInt("user_logined"));
+					item.setUser_created_date(rs.getString("user_created_date"));
+					item.setUser_last_modified(rs.getString("user_last_modified"));
+					item.setUser_last_logined(rs.getString("user_last_logined"));
+					item.setUser_parent_id(rs.getInt("user_parent_id"));
+					item.setUser_actions(rs.getInt("user_actions"));
+					item.setUser_notes(rs.getString("user_notes"));
+					
+					items.add(item);
+				}
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+			//tro ve trang thai an toan cua ket noi
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		return items;
 	}
 	// Tìm kiếm theo điều kiện 
 	public ArrayList<UserObject> searchUserByCondition(String condition) {    

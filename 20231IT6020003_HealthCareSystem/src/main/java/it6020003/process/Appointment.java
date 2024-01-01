@@ -1,12 +1,13 @@
-package healthcare.process;
+package it6020003.process;
 
 import java.util.*;
 
 import java.sql.*;
-import healthcare.objects.*;
-import healthcare.*;
-import healthcare.ConnectionPool;
-import healthcare.ConnectionPoolImpl;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import it6020003.*;
+import it6020003.objects.*;
 
 public class Appointment {
 	//Ket noi de lam viec voi csdl
@@ -33,7 +34,7 @@ public class Appointment {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO tblappointment(");
         sql.append("app_date, app_time, app_status, app_created_date, ");
-        sql.append("app_modified_date, app_notes, app_deleted, app_user_id, app_doctor_image, app_doctor_name)");
+        sql.append("app_modified_date, app_notes, app_deleted, user_id, app_doctor_image, app_doctor_name)");
         sql.append("VALUES(?,?,?,?,?,?,?,?,?,?)");
 
         try {
@@ -45,7 +46,7 @@ public class Appointment {
             pre.setString(5, appointment.getApp_modified_date());
             pre.setString(6, appointment.getApp_notes());
             pre.setBoolean(7, appointment.isApp_deleted());
-            pre.setInt(8, appointment.getApp_user_id());
+            pre.setInt(8, appointment.getUser_id());
             pre.setString(9, appointment.getApp_doctor_image());
             pre.setString(10, appointment.getApp_doctor_name());
             int result = pre.executeUpdate();
@@ -73,7 +74,7 @@ public class Appointment {
         sql.append("UPDATE tblappointment ");
         sql.append("SET "
                 + "app_date = ?, app_time = ?, app_status = ?, app_created_date = ?, "
-                + "app_modified_date = ?, app_notes = ?, app_deleted = ? ,app_user_id = ? , app_doctor_image = ?, app_doctor_name = ?");
+                + "app_modified_date = ?, app_notes = ?, app_deleted = ? ,user_id = ? , app_doctor_image = ?, app_doctor_name = ?");
         sql.append(" WHERE app_id = ? ");
 
         try {
@@ -86,7 +87,7 @@ public class Appointment {
             pre.setString(6, appointment.getApp_notes());
             pre.setBoolean(7, appointment.isApp_deleted());
             pre.setInt(8, appointment.getApp_id());
-            pre.setInt(8, appointment.getApp_user_id());
+            pre.setInt(8, appointment.getUser_id());
             pre.setString(9, appointment.getApp_doctor_image());
             pre.setString(10, appointment.getApp_doctor_name());
 
@@ -179,7 +180,7 @@ public class Appointment {
                     item.setApp_modified_date(rs.getString("app_modified_date"));
                     item.setApp_notes(rs.getString("app_notes"));
                     item.setApp_deleted(rs.getBoolean("app_deleted"));
-                    item.setApp_user_id(rs.getInt("app_user_id"));
+                    item.setUser_id(rs.getInt("user_id"));
                     item.setApp_doctor_image(rs.getString("app_doctor_image"));
                     item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
@@ -198,12 +199,13 @@ public class Appointment {
     }
  // Hàm lấy dữ liệu cuộc hẹn từ cơ sở dữ liệu cho một người dùng cụ thể
     public ArrayList<Integer> getAppointmentStatusCountByUserId(int userId) {
+    	System.out.print(userId);
         ArrayList<Integer> statusCounts = new ArrayList<>();
         
         // Khởi tạo mảng chứa số lượng cho từng trạng thái
         int[] counts = new int[3];
         
-        String sql = "SELECT app_status, COUNT(*) FROM tblappointment WHERE app_user_id = ? GROUP BY app_status";
+        String sql = "SELECT app_status, COUNT(*) FROM tblappointment WHERE user_id = ? GROUP BY app_status";
         try {
             PreparedStatement pre = this.con.prepareStatement(sql);
             pre.setInt(1, userId);
@@ -244,7 +246,7 @@ public class Appointment {
     public ArrayList<AppointmentObject> getAppointmentsByUserId(int user_id) {
         ArrayList<AppointmentObject> items = new ArrayList<>();
         AppointmentObject item;
-        String sql = "SELECT * FROM tblappointment WHERE app_user_id = ?";
+        String sql = "SELECT * FROM tblappointment WHERE user_id = ?";
         try {
             PreparedStatement pre = this.con.prepareStatement(sql);
 	        // Truyền giá trị cho tham số
@@ -261,7 +263,7 @@ public class Appointment {
                     item.setApp_modified_date(rs.getString("app_modified_date"));
                     item.setApp_notes(rs.getString("app_notes"));
                     item.setApp_deleted(rs.getBoolean("app_deleted"));
-                    item.setApp_user_id(rs.getInt("app_user_id"));
+                    item.setUser_id(rs.getInt("user_id"));
                     item.setApp_doctor_image(rs.getString("app_doctor_image"));
                     item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
@@ -291,183 +293,335 @@ public class Appointment {
         }
         return 0;
     }
-    public static void main(String[] args) {
-        Appointment appointment = new Appointment();
-        Scanner scanner = new Scanner(System.in);
-        AppointmentObject newAppointment = new AppointmentObject();
+    
+    
+    // SAC
+    public ArrayList<AppointmentObject> getAppointmentByDoctorId(int doctorId, String status) {
+		ArrayList<AppointmentObject> items = new ArrayList<>();
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblappointment ");
+		sql.append("WHERE doctor_id = ? and app_status = ? ");
+		sql.append("ORDER BY app_date ASC ");
+		
+		AppointmentObject item;
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, doctorId);
+			pre.setString(2, status);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					item = new AppointmentObject();
+					item.setApp_id(rs.getInt("app_id"));
+					item.setApp_date(rs.getString("app_date"));
+					item.setApp_time(rs.getString("app_time"));
+					item.setApp_status(rs.getString("app_status"));
+					item.setApp_created_date(rs.getString("app_created_date"));
+					item.setApp_modified_date(rs.getString("app_modified_date"));
+					item.setApp_notes(rs.getString("app_notes"));
+					item.setApp_deleted(rs.getBoolean("app_deleted"));
+					item.setUser_id(rs.getInt("user_id"));
+					item.setApp_doctor_image(rs.getString("app_doctor_image"));
+                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
-        while (true) {
-            System.out.println("\n\n");
-            System.out.println("=========== MENU QUẢN LÝ APPOINTMENT ===========");
-            System.out.println("1. Thêm appointment");
-            System.out.println("2. Sửa appointment");
-            System.out.println("3. Xoá appointment");
-            System.out.println("4. Hiển thị danh sách appointments");
-            System.out.println("5. Hiển thị danh sách appointments theo User ID");
-            System.out.println("6. Đếm số lượng appointments");
-            System.out.println("0. Thoát");
-            System.out.println("===================================================");
+					items.add(item);
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		return items;
+	}
+	public ArrayList<AppointmentObject> getDateAppointmentByDoctorId(int doctorId, String date, String status) {
+		ArrayList<AppointmentObject> items = new ArrayList<>();
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblappointment ");
+		sql.append("WHERE doctor_id = ? and app_status = ? and app_date = ? ");
+		sql.append("ORDER BY app_date ASC ");
+		
+		AppointmentObject item;
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, doctorId);
+			pre.setString(2, status);
+			pre.setString(3, date);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					item = new AppointmentObject();
+					item.setApp_id(rs.getInt("app_id"));
+					item.setApp_date(rs.getString("app_date"));
+					item.setApp_time(rs.getString("app_time"));
+					item.setApp_status(rs.getString("app_status"));
+					item.setApp_created_date(rs.getString("app_created_date"));
+					item.setApp_modified_date(rs.getString("app_modified_date"));
+					item.setApp_notes(rs.getString("app_notes"));
+					item.setApp_deleted(rs.getBoolean("app_deleted"));
+					item.setUser_id(rs.getInt("user_id"));
+					item.setApp_doctor_image(rs.getString("app_doctor_image"));
+                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
-            System.out.print("Chọn chức năng (0-6): ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+					items.add(item);
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		return items;
+	}
+	public ArrayList<AppointmentObject> getAppointmentByUserId(int userId) {
+		ArrayList<AppointmentObject> items = new ArrayList<>();
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblappointment ");
+		sql.append("WHERE user_id = ?");
+		sql.append("ORDER BY app_date ASC ");
+		
+		AppointmentObject item;
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, userId);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					item = new AppointmentObject();
+					item.setApp_id(rs.getInt("app_id"));
+					item.setApp_date(rs.getString("app_date"));
+					item.setApp_time(rs.getString("app_time"));
+					item.setApp_status(rs.getString("app_status"));
+					item.setApp_created_date(rs.getString("app_created_date"));
+					item.setApp_modified_date(rs.getString("app_modified_date"));
+					item.setApp_notes(rs.getString("app_notes"));
+					item.setApp_deleted(rs.getBoolean("app_deleted"));
+					item.setUser_id(rs.getInt("user_id"));
+					item.setDoctor_id(rs.getInt("doctor_id"));
+					item.setApp_doctor_image(rs.getString("app_doctor_image"));
+                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
-            System.out.println("\n\n");
-            switch (choice) {
-                case 1:
-                    // Thêm appointment
-                    System.out.print("Nhập ngày appointment (yyyy-MM-dd): ");
-                    String appDateAdd = scanner.nextLine();
-                    newAppointment.setApp_date(appDateAdd);
-
-                    System.out.print("Nhập giờ appointment (HH:mm:ss): ");
-                    String appTimeAdd = scanner.nextLine();
-                    newAppointment.setApp_time(appTimeAdd);
-
-                    System.out.print("Nhập trạng thái appointment: ");
-                    String appStatusAdd = scanner.nextLine();
-                    newAppointment.setApp_status(appStatusAdd);
-
-                    System.out.print("Nhập ngày tạo appointment (yyyy-MM-dd): ");
-                    String appCreatedDateAdd = scanner.nextLine();
-                    newAppointment.setApp_created_date(appCreatedDateAdd);
-
-                    System.out.print("Nhập ngày sửa appointment (yyyy-MM-dd): ");
-                    String appModifiedDateAdd = scanner.nextLine();
-                    newAppointment.setApp_modified_date(appModifiedDateAdd);
-
-                    System.out.print("Nhập ghi chú appointment: ");
-                    String appNotesAdd = scanner.nextLine();
-                    newAppointment.setApp_notes(appNotesAdd);
-
-                    System.out.print("Nhập trạng thái xoá appointment (true/false): ");
-                    boolean appDeletedAdd = scanner.nextBoolean();
-                    newAppointment.setApp_deleted(appDeletedAdd);
-
-                    System.out.print("Nhập User ID của bệnh nhân: ");
-                    int appUserIdAdd = scanner.nextInt();
-                    newAppointment.setApp_user_id(appUserIdAdd);
-
-                    System.out.print("Nhập đường dẫn ảnh của bác sĩ: ");
-                    scanner.nextLine(); // Đọc bỏ dòng new line còn lại
-                    String appDoctorImageAdd = scanner.nextLine();
-                    newAppointment.setApp_doctor_image(appDoctorImageAdd);
-
-                    System.out.print("Nhập tên của bác sĩ: ");
-                    String appDoctorNameAdd = scanner.nextLine();
-                    newAppointment.setApp_doctor_name(appDoctorNameAdd);
-
-                    System.out.println("\n\n");
-                    if (appointment.addAppointment(newAppointment)) {
-                        System.out.println("Thêm appointment thành công!");
-                    } else {
-                        System.out.println("Thêm appointment ---KHÔNG THÀNH CÔNG---!");
-                    }
-                    System.out.println("\n\n");
-                    break;
-                case 2:
-                    // Sửa appointment
-                    System.out.print("Nhập id của appointment cần sửa: ");
-                    int appIDUpdate = scanner.nextInt();
-                    scanner.nextLine();
-
-                    newAppointment.setApp_id(appIDUpdate);
-
-                    System.out.print("Nhập ngày appointment mới (yyyy-MM-dd): ");
-                    String appDateUpdate = scanner.nextLine();
-                    newAppointment.setApp_date(appDateUpdate);
-
-                    System.out.print("Nhập giờ appointment mới (HH:mm:ss): ");
-                    String appTimeUpdate = scanner.nextLine();
-                    newAppointment.setApp_time(appTimeUpdate);
-
-                    System.out.print("Nhập trạng thái appointment mới: ");
-                    String appStatusUpdate = scanner.nextLine();
-                    newAppointment.setApp_status(appStatusUpdate);
-
-                    System.out.print("Nhập ngày tạo appointment mới (yyyy-MM-dd): ");
-                    String appCreatedDateUpdate = scanner.nextLine();
-                    newAppointment.setApp_created_date(appCreatedDateUpdate);
-
-                    System.out.print("Nhập ngày sửa appointment mới (yyyy-MM-dd): ");
-                    String appModifiedDateUpdate = scanner.nextLine();
-                    newAppointment.setApp_modified_date(appModifiedDateUpdate);
-
-                    System.out.print("Nhập ghi chú appointment mới: ");
-                    String appNotesUpdate = scanner.nextLine();
-                    newAppointment.setApp_notes(appNotesUpdate);
-
-                    System.out.print("Nhập trạng thái xoá appointment mới (true/false): ");
-                    boolean appDeletedUpdate = scanner.nextBoolean();
-                    newAppointment.setApp_deleted(appDeletedUpdate);
-
-                    System.out.print("Nhập User ID của bệnh nhân mới: ");
-                    int appUserIdUpdate = scanner.nextInt();
-                    newAppointment.setApp_user_id(appUserIdUpdate);
-
-                    System.out.print("Nhập đường dẫn ảnh của bác sĩ mới: ");
-                    scanner.nextLine(); // Đọc bỏ dòng new line còn lại
-                    String appDoctorImageUpdate = scanner.nextLine();
-                    newAppointment.setApp_doctor_image(appDoctorImageUpdate);
-
-                    System.out.print("Nhập tên của bác sĩ mới: ");
-                    String appDoctorNameUpdate = scanner.nextLine();
-                    newAppointment.setApp_doctor_name(appDoctorNameUpdate);
-
-                    System.out.println("\n\n");
-                    if (appointment.updateAppointment(newAppointment)) {
-                        System.out.println("Sửa appointment thành công!");
-                    } else {
-                        System.out.println("Sửa appointment ---KHÔNG THÀNH CÔNG---!");
-                    }
-                    System.out.println("\n\n");
-                    break;
-                case 3:
-                    // Xoá appointment
-                    System.out.print("Nhập id của appointment cần xoá: ");
-                    int appIDDelete = scanner.nextInt();
-                    scanner.nextLine();
-
-                    System.out.println("\n\n");
-                    if (!appointment.deleteAppointment(appIDDelete)) {
-                        System.out.println("Xoá appointment " + appIDDelete + "---KHÔNG THÀNH CÔNG---!");
-                    } else {
-                        System.out.println("Xoá appointment thành công!");
-                    }
-                    System.out.println("\n\n");
-                    break;
-                case 4:
-                    // Hiển thị danh sách appointments
-                    ArrayList<AppointmentObject> appointmentItems = appointment.getAppointmentObjects();
-                    appointmentItems.forEach(item -> {
-                        System.out.println(item);
-                    });
-                    break;
-                case 5:
-                    // Hiển thị danh sách appointments theo User ID
-                    System.out.print("Nhập User ID để hiển thị danh sách appointments: ");
-                    int userIdToShow = scanner.nextInt();
-                    ArrayList<AppointmentObject> appointmentsByUserId = appointment.getAppointmentsByUserId(userIdToShow);
-                    appointmentsByUserId.forEach(item -> {
-                        System.out.println(item);
-                    });
-                    break;
-                case 6:
-                    // Đếm số lượng appointments
-                    int appCount = appointment.countAppointments();
-                    System.out.println("Số lượng appointments: " + appCount);
-                    break;
-                case 0:
-                    System.out.println("Thoát chương trình. Cảm ơn!");
-                    scanner.close();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Chọn sai. Vui lòng chọn lại.");
-                        break;
-                        
-            }
-        }
-    }
+					items.add(item);
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		return items;
+	}
+	public int getTotalPatient(int doctor_id) {
+		int total = 0;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT count(app_id) FROM tblappointment ");
+		sql.append("");
+		sql.append("WHERE doctor_id = ?");
+		
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, doctor_id);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs.next()) {
+                // Retrieve the count value
+                total = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+	public int getTotalPatientDate(String today, int doctor_id) {
+		int total = 0;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT count(user_id) FROM tblappointment ");
+		sql.append("");
+		sql.append("WHERE app_date = ? AND doctor_id = ?");
+		
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setString(1, today);
+			pre.setInt(2, doctor_id);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs.next()) {
+                // Retrieve the count value
+                total = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+	public int getTotalAppointmentDate(String today, int doctor_id) {
+		int total = 0;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT count(app_id) FROM tblappointment ");
+		sql.append("");
+		sql.append("WHERE app_date = ? AND doctor_id = ?");
+		
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setString(1, today);
+			pre.setInt(2, doctor_id);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs.next()) {
+                // Retrieve the count value
+                total = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+	public int getTotalAppointment(int doctor_id) {
+		int total = 0;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT count(app_id) FROM tblappointment ");
+		sql.append("");
+		sql.append("WHERE doctor_id = ?");
+		
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, doctor_id);
+			
+			ResultSet rs = pre.executeQuery();
+			if (rs.next()) {
+                // Retrieve the count value
+                total = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		return total;
+	}
+	public boolean updateStatus(int appId, String status) {
+		//Câu lệnh sql
+				StringBuilder sql = new StringBuilder();
+				sql.append("UPDATE tblappointment ");
+				sql.append("SET ");
+				sql.append("app_status = ?, app_modified_date = ? ");
+				sql.append("WHERE app_id = ?"); // update by id
+				
+				//set date
+				LocalDate currentDate = LocalDate.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				String formattedDate = currentDate.format(formatter);
+				
+				try {
+					PreparedStatement pre = this.con.prepareStatement(sql.toString());
+					pre.setString(1, status);
+				    pre.setString(2, formattedDate);
+				    pre.setInt(3, appId);
+					
+					//Execute sql
+					int result = pre.executeUpdate();
+					if (result == 0) {
+						this.con.rollback();
+						return false;
+					}
+					
+					//ghi nhan thuc thi sau cung
+					this.con.commit();
+					return true;
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					try {
+						this.con.rollback();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				return false;
+	}
+	public ArrayList<AppointmentObject> getAppointmentFromNow(AppointmentObject similar, int number_days) {
+		ArrayList<AppointmentObject> items = new ArrayList<>();
+		
+		//sql
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblappointment ");
+		sql.append("WHERE ");
+		sql.append("DATEDIFF(Date(now()), Date(STR_TO_DATE(created_date,\\\"%d/%m/%Y\\\")) < ?");
+		sql.append("");
+		
+		return items;
+	}
 }
    

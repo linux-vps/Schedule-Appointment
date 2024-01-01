@@ -1,4 +1,4 @@
-package healthcare;
+package it6020003;
 
 import java.sql.*;
 import java.util.*;
@@ -38,7 +38,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		this.userpass = "123456";
 		
 		// Xác định bộ nhớ
-		this.pool = new Stack();
+		this.pool = new Stack<>();
 	}
 	
 	@Override

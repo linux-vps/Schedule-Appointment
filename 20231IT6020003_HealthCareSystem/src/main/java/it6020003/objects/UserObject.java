@@ -1,4 +1,4 @@
-package healthcare.objects;
+package it6020003.objects;
 
 import java.io.Serializable;
 
@@ -23,10 +23,6 @@ public class UserObject implements Serializable {
 	private String user_notes;
 	private int user_parent_id;
 	private int user_actions;
-	
-	
-
-	
 	
 	
 	public UserObject(int user_id, String user_name, String user_fullname, String user_phone, String user_birthday,

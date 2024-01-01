@@ -1,4 +1,4 @@
-package healthcare.process;
+package it6020003.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -6,32 +6,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 
-import jakarta.servlet.http.HttpSession;
+import it6020003.objects.AppointmentObject;
+import it6020003.process.Appointment;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
-import healthcare.objects.AppointmentObject;
-import healthcare.objects.UserObject;
-/**
- * Servlet implementation class CancelAppointment
- */
 public class CancelAppointment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public CancelAppointment() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// Nhận dữ liệu từ form

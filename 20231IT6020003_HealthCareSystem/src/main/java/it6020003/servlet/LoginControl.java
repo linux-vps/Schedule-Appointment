@@ -1,7 +1,6 @@
-package healthcare.process;
+package it6020003.servlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,33 +8,16 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-import healthcare.objects.UserObject;
+import it6020003.objects.UserObject;
+import it6020003.process.User;
 
-/**
- * Servlet implementation class LoginControl
- */
 public class LoginControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginControl() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    // Nhận dữ liệu từ form
 	    String username = request.getParameter("username");
@@ -51,7 +33,7 @@ public class LoginControl extends HttpServlet {
 	        HttpSession session = request.getSession();
 	        session.setAttribute("loggedInUser", loggedInUser);
 	        
-	        
+	        //Guild session
 //	        public class YourJavaClass {
 //
 //	            public void yourMethod(HttpServletRequest request) {

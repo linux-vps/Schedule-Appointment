@@ -1,7 +1,6 @@
-package healthcare.process;
+package it6020003.servlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,35 +10,26 @@ import java.net.URLEncoder;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.Date;
+
+import it6020003.objects.AppointmentObject;
+import it6020003.objects.UserObject;
+import it6020003.process.Appointment;
+
 import java.text.SimpleDateFormat;
 
-import healthcare.objects.AppointmentObject;
-import healthcare.objects.UserObject;
-/**
- * Servlet implementation class BookAppointment
- */
 public class BookAppointment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public BookAppointment() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
         HttpSession session = request.getSession();
@@ -69,7 +59,7 @@ public class BookAppointment extends HttpServlet {
 		newAppointment.setApp_modified_date(formattedDate);
 		newAppointment.setApp_deleted(false);
 		newAppointment.setApp_notes(notes);
-		newAppointment.setApp_user_id(user_Id);
+		newAppointment.setUser_id(user_Id);
     	String doctorName = request.getParameter("doctorNameHidden");
     	String selectedDate = request.getParameter("selectedTimingHidden");
     	String selectedTiming = request.getParameter("selectedDateHidden");
