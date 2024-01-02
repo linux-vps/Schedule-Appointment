@@ -181,6 +181,7 @@ public class Appointment {
                     item.setApp_notes(rs.getString("app_notes"));
                     item.setApp_deleted(rs.getBoolean("app_deleted"));
                     item.setUser_id(rs.getInt("user_id"));
+                    item.setDoctor_id(rs.getInt("doctor_id"));
                     item.setApp_doctor_image(rs.getString("app_doctor_image"));
                     item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
@@ -613,15 +614,46 @@ public class Appointment {
 	}
 	public ArrayList<AppointmentObject> getAppointmentFromNow(AppointmentObject similar, int number_days) {
 		ArrayList<AppointmentObject> items = new ArrayList<>();
+		AppointmentObject item;
 		
 		//sql
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblappointment ");
 		sql.append("WHERE ");
-		sql.append("DATEDIFF(Date(now()), Date(STR_TO_DATE(created_date,\\\"%d/%m/%Y\\\")) < ?");
+		sql.append("DATEDIFF(CURDATE(), STR_TO_DATE(app_created_date, '%d/%m/%Y')) < ?");
 		sql.append("");
 		
-		return items;
+		try {
+            PreparedStatement pre = this.con.prepareStatement(sql.toString());
+            ResultSet rs = pre.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    item = new AppointmentObject();
+                    item.setApp_id(rs.getInt("app_id"));
+                    item.setApp_date(rs.getString("app_date"));
+                    item.setApp_time(rs.getString("app_time"));
+                    item.setApp_status(rs.getString("app_status"));
+                    item.setApp_created_date(rs.getString("app_created_date"));
+                    item.setApp_modified_date(rs.getString("app_modified_date"));
+                    item.setApp_notes(rs.getString("app_notes"));
+                    item.setApp_deleted(rs.getBoolean("app_deleted"));
+                    item.setUser_id(rs.getInt("user_id"));
+                    item.setDoctor_id(rs.getInt("doctor_id"));
+                    item.setApp_doctor_image(rs.getString("app_doctor_image"));
+                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
+
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                this.con.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return items;
 	}
 }
    
