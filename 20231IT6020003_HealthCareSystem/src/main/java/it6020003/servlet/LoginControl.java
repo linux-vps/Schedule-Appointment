@@ -57,7 +57,7 @@ public class LoginControl extends HttpServlet {
 	        } else  if ("d".equals(role)) {
 	        	response.sendRedirect("doctor-dashboard.jsp");
 	        } else if ("a".equals(role)) {
-	        	response.sendRedirect("admin.jsp");
+	        	response.sendRedirect(request.getContextPath()+"/admin/index.jsp");
 	        }
 	        
 	        

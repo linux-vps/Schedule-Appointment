@@ -260,12 +260,12 @@
 													</div>
 													<%
 													//get count 
-																								LocalDate today = LocalDate.now();
-																								DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-																						        String formattedDate1 = today.format(formatter1);
-																						        int total_patient = a.getTotalPatient(loggedInUser.getUser_id());
-																						        int today_patient = a.getTotalPatientDate(formattedDate1, loggedInUser.getUser_id());
-																						        int today_appointment = a.getTotalAppointmentDate(formattedDate1, loggedInUser.getUser_id());
+														LocalDate today = LocalDate.now();
+														DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+												        String formattedDate1 = today.format(formatter1);
+												        int total_patient = a.getTotalPatient(loggedInUser.getUser_id());
+												        int today_patient = a.getTotalPatientDate(formattedDate1, loggedInUser.getUser_id());
+												        int today_appointment = a.getTotalAppointmentDate(formattedDate1, loggedInUser.getUser_id());
 													%>
 													<div class="dash-widget-info">
 														<h6>Total Patient</h6>
@@ -289,8 +289,8 @@
 														<p class="text-muted">
 														<%
 														DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd, MMM yyyy");
-																								        String formattedDate = today.format(formatter);
-																									    out.print(formattedDate);
+												        String formattedDate = today.format(formatter);
+													    out.print(formattedDate);
 														%>
 												        </p>
 													</div>

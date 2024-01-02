@@ -425,7 +425,7 @@ public class User {
 	  return 0;
 	}	
 	// Đếm theo điều kiện
-	public int countProductByCondition(String condition) {
+	public int countUserByCondition(String condition) {
 	    int count = 0;
 	    String sql = "SELECT COUNT(*) FROM tbluser WHERE " + condition;
 	    try {
@@ -679,7 +679,7 @@ public class User {
                 	System.out.print("Nhập điều kiện: ");
                     System.out.print("SELECT COUNT(*) FROM tbluser WHERE ");
                     String Condition = scanner.nextLine();
-            		int productCount = user.countProductByCondition(Condition);	
+            		int productCount = user.countUserByCondition(Condition);	
             		if(productCount == 0) {
             			System.out.println("---KHÔNG THÀNH CÔNG KHI ĐẾM SỐ LƯỢNG THEO ĐIỀU KIỆN---");
             		}

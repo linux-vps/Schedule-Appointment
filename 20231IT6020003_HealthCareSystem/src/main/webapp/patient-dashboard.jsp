@@ -125,7 +125,7 @@
 						</div>
 					</li>
 
-											<%
+						<%
 						// Lấy thông tin người dùng từ Session
 						HttpSession userSession  = request.getSession();
 						UserObject loggedInUser = (UserObject) userSession .getAttribute("loggedInUser");
