@@ -84,10 +84,6 @@
                             <a href="#">Bệnh nhân <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="search.jsp">Tìm kiếm bác sĩ</a></li>
-                                <li><a href="doctor-profile.html">Hồ sơ bác sĩ</a></li>
-                                <li><a href="booking.html">Đặt lịch</a></li>
-                                <li><a href="checkout.jsp">Thanh toán</a></li>
-                                <li><a href="booking-success.jsp">Đặt lịch thành công</a></li>
                                 <li><a href="patient-dashboard.jsp">Bảng điều khiển của bệnh nhân</a></li>
                                 <li><a href="favourites.html">Yêu thích</a></li>
                                 <li><a href="chat.html">Trò chuyện</a></li>
@@ -174,13 +170,20 @@
             var address = decodeURIComponent(urlParams.get('address'));
             var imageSrc = decodeURIComponent(urlParams.get('imageSrc'));
 
-            // Hiển thị thông tin trong các phần tử có id tương ứng
-            $('#doctorName').text(doctorName);
-            $('#rating').text(rating);
-            $('#address').text(address);
-            $('#doctorImage').attr('src', imageSrc);
+            // Kiểm tra nếu doctorName bị null
+	        if (doctorName === null || doctorName === "null") {
+	            // Chuyển hướng đến search.jsp
+	            window.location.href = 'search.jsp';
+	        } else {
+	            // Hiển thị thông tin trong các phần tử có id tương ứng
+	            $('#doctorName').text(doctorName);
+	            $('#rating').text(rating);
+	            $('#address').text(address);
+	            $('#doctorImage').attr('src', imageSrc);
+	        }
         });
     </script>
+
       <!-- Page Content -->
       <div class="content">
         <div class="container">

@@ -152,7 +152,7 @@
 						            </div>
 						            <a class="dropdown-item" href="patient-dashboard.jsp">Dashboard</a>
 						            <a class="dropdown-item" href="profile-settings.jsp">Cài đặt hồ sơ</a>
-						            <a class="dropdown-item" href="logout.jsp">Đăng xuất</a>
+						            <a class="dropdown-item" href="LogoutControl">Đăng xuất</a>
 						        </div>
 						    </li>
 						    <!-- /User Menu -->

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="it6020003.objects.UserObject" %>
 <%@ page import="jakarta.servlet.http.HttpSession"%>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -88,37 +89,16 @@
 							<a href="index.jsp">Trang chủ</a>
                         </li>
                         <li class="has-submenu">
-                            <a href="#">Bác sĩ <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="doctor-dashboard.html">Bảng điều khiển của bác sĩ</a></li>
-                                <li><a href="appointments.html">Cuộc hẹn</a></li>
-                                <li><a href="schedule-timings.html">Thời gian biểu</a></li>
-                                <li><a href="my-patients.html">Bệnh nhân của tôi</a></li>
-                                <li><a href="patient-profile.html">Hồ sơ bệnh nhân</a></li>
-                                <li><a href="chat-doctor.html">Trò chuyện</a></li>
-                                <li><a href="invoices.html">Hóa đơn</a></li>
-                                <li><a href="doctor-profile-settings.jsp">Cài đặt hồ sơ</a></li>
-                                <li><a href="reviews.html">Đánh giá</a></li>
-                                <li><a href="doctor-register.html">Đăng ký bác sĩ</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-submenu">
                             <a href="#">Bệnh nhân <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="search.jsp">Tìm kiếm bác sĩ</a></li>
                                 <li><a href="doctor-profile.html">Hồ sơ bác sĩ</a></li>
-                                <li><a href="booking.html">Đặt lịch</a></li>
-                                <li><a href="checkout.jsp">Thanh toán</a></li>
-                                <li><a href="booking-success.jsp">Đặt lịch thành công</a></li>
                                 <li><a href="patient-dashboard.jsp">Bảng điều khiển của bệnh nhân</a></li>
                                 <li><a href="favourites.html">Yêu thích</a></li>
                                 <li><a href="chat.html">Trò chuyện</a></li>
                                 <li><a href="profile-settings.jsp">Cài đặt hồ sơ</a></li>
                                 <li><a href="change-password.html">Đổi mật khẩu</a></li>
                             </ul>
-                        </li>
-                        <li>
-                            <a href="admin/index.jsp" target="_blank">Quản trị</a>
                         </li>
                         <li class="login-link">
                             <a href="sign.jsp">Đăng nhập / Đăng ký</a>
@@ -170,7 +150,7 @@
 						            </div>
 						            <a class="dropdown-item" href="patient-dashboard.jsp">Dashboard</a>
 						            <a class="dropdown-item" href="profile-settings.jsp">Cài đặt hồ sơ</a>
-						            <a class="dropdown-item" href="logout.jsp">Đăng xuất</a>
+						            <a class="dropdown-item" href="LogoutControl">Đăng xuất</a>
 						        </div>
 						    </li>
 						    <!-- /User Menu -->

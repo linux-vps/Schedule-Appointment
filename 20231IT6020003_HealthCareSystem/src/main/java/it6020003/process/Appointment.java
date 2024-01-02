@@ -199,39 +199,38 @@ public class Appointment {
     }
  // Hàm lấy dữ liệu cuộc hẹn từ cơ sở dữ liệu cho một người dùng cụ thể
     public ArrayList<Integer> getAppointmentStatusCountByUserId(int userId) {
-    	System.out.print(userId);
+        System.out.print(userId);
         ArrayList<Integer> statusCounts = new ArrayList<>();
-        
+
         // Khởi tạo mảng chứa số lượng cho từng trạng thái
-        int[] counts = new int[3];
-        
+        int[] counts = new int[4];
+
         String sql = "SELECT app_status, COUNT(*) FROM tblappointment WHERE user_id = ? GROUP BY app_status";
         try {
             PreparedStatement pre = this.con.prepareStatement(sql);
             pre.setInt(1, userId);
             ResultSet rs = pre.executeQuery();
-            
-            // Khởi tạo mảng trạng thái để lưu trữ Confirmed, Pending, Canceled
-            String[] statusArray = {"Confirmed", "Pending", "Canceled"};
-            
-            // Khởi tạo mảng đếm index tương ứng với Confirmed (0), Pending (1), Canceled (2)
-            int[] statusIndex = {0, 1, 2};
 
-            // Khởi tạo map để lưu trữ index của từng trạng thái
+            String[] statusArray = {"Confirmed", "Scheduled", "Canceled", "Completed"};
+            int[] statusIndex = {0, 1, 2, 3};
+
             Map<String, Integer> statusIndexMap = new HashMap<>();
             for (int i = 0; i < statusArray.length; i++) {
                 statusIndexMap.put(statusArray[i], statusIndex[i]);
             }
 
-            // Xử lý kết quả từ ResultSet
             while (rs.next()) {
                 String status = rs.getString("app_status");
                 int count = rs.getInt(2);
-                int index = statusIndexMap.get(status);
-                counts[index] = count;
+                Integer index = statusIndexMap.get(status);
+
+                if (index != null) {
+                    counts[index] = count;
+                } else {
+                    System.out.println("Không tìm thấy index cho trạng thái: " + status);
+                }
             }
 
-            // Thêm số lượng vào mảng kết quả
             for (int count : counts) {
                 statusCounts.add(count);
             }
@@ -241,6 +240,7 @@ public class Appointment {
         }
         return statusCounts;
     }
+
 
     // Lấy danh sách appointments theo điều kiện (user_id)
     public ArrayList<AppointmentObject> getAppointmentsByUserId(int user_id) {
