@@ -542,7 +542,7 @@
 															<a href="profile.html">Dr. <%=doctor.getUser_fullname() %></a>
 														</h2>
 													</td>
-													<td>Dental</td>
+													<td><% %></td>
 													<td>
 														<h2 class="table-avatar">
 															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient1.jpg" alt="User Image"></a>
