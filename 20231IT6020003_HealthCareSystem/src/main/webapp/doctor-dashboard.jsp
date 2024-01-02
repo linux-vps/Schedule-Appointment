@@ -134,16 +134,13 @@
 							</div>
 							<a class="dropdown-item" href="doctor-dashboard.jsp">Dashboard</a>
 							<a class="dropdown-item" href="doctor-profile-settings.jsp">Profile Settings</a>
-							<a class="dropdown-item" href="">Logout</a>
+							<a class="dropdown-item" href="LogoutControl">Logout</a>
 						</div>
 					</li>
 					<!-- /User Menu -->
 						<%
 						}
-						%>
-
-					
-
+						%>		
 				</ul>
 			</nav>
 		</header>

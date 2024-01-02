@@ -3,7 +3,15 @@
 <%@ page import="jakarta.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html lang="vi">
-
+<%
+// Lấy thông tin người dùng từ Session
+HttpSession userSession  = request.getSession();
+UserObject loggedInUser = (UserObject) userSession .getAttribute("loggedInUser");
+if (loggedInUser == null) {
+    // Người dùng chưa đăng nhập
+	response.sendRedirect("sign.jsp");
+}
+%>
 
 
 <head>
@@ -126,10 +134,7 @@
 								<p class="contact-info-header"> 0433636050</p>
 							</div>
 						</li>
-												<%
-						// Lấy thông tin người dùng từ Session
-						HttpSession userSession  = request.getSession();
-						UserObject loggedInUser = (UserObject) userSession .getAttribute("loggedInUser");
+						<%
 						
 						// Kiểm tra xem người dùng đã đăng nhập hay chưa
 						if (loggedInUser == null) {
@@ -161,7 +166,7 @@
 						            </div>
 						            <a class="dropdown-item" href="patient-dashboard.jsp">Dashboard</a>
 						            <a class="dropdown-item" href="profile-settings.jsp">Cài đặt hồ sơ</a>
-						            <a class="dropdown-item" href="logout.jsp">Đăng xuất</a>
+						            <a class="dropdown-item" href="LogoutControl">Đăng xuất</a>
 						        </div>
 						    </li>
 						    <!-- /User Menu -->

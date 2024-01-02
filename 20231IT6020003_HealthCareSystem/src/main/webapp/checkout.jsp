@@ -126,6 +126,7 @@
 						
 						// Kiểm tra xem người dùng đã đăng nhập hay chưa
 						if (loggedInUser == null) {
+							response.sendRedirect("sign.jsp");
 						    // Người dùng chưa đăng nhập
 						%>
 						    <li class="nav-item">
@@ -154,7 +155,7 @@
 						            </div>
 						            <a class="dropdown-item" href="patient-dashboard.jsp">Dashboard</a>
 						            <a class="dropdown-item" href="profile-settings.jsp">Cài đặt hồ sơ</a>
-						            <a class="dropdown-item" href="logout.jsp">Đăng xuất</a>
+						            <a class="dropdown-item" href="LogoutControl">Đăng xuất</a>
 						        </div>
 						    </li>
 						    <!-- /User Menu -->
