@@ -1,3 +1,6 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Collections"%>
 <%@page import="it6020003.objects.AppointmentObject"%>
 <%@page import="it6020003.process.Speciality"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -136,7 +139,7 @@
 							</div>
 							<a class="dropdown-item" href="">My Profile</a>
 							<a class="dropdown-item" href="">Settings</a>
-							<a class="dropdown-item" href="../sign.jsp">Logout</a>
+							<a class="dropdown-item" href="../LogoutControl">Logout</a>
 						</div>
 					</li>
 					<!-- /User Menu -->
@@ -161,19 +164,19 @@
 								<span>Main</span>
 							</li>
 							<li class="active"> 
-								<a href=""><i class="fe fe-home"></i> <span>Dashboard</span></a>
+								<a href="index.jsp"><i class="fe fe-home"></i> <span>Dashboard</span></a>
 							</li>
 							<li> 
-								<a href=""><i class="fe fe-layout"></i> <span>Appointments</span></a>
+								<a href="appointment-list.jsp"><i class="fe fe-layout"></i> <span>Appointments</span></a>
 							</li>
 							<li> 
-								<a href=""><i class="fe fe-users"></i> <span>Specialities</span></a>
+								<a href="speciality-list.jsp"><i class="fe fe-users"></i> <span>Specialities</span></a>
 							</li>
 							<li> 
-								<a href=""><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
+								<a href="doctor-list.jsp"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
 							</li>
 							<li> 
-								<a href=""><i class="fe fe-user"></i> <span>Patients</span></a>
+								<a href="patient-list.jsp"><i class="fe fe-user"></i> <span>Patients</span></a>
 							</li>
 							<li> 
 								<a href=""><i class="fe fe-star-o"></i> <span>Reviews</span></a>
@@ -380,26 +383,29 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12 col-lg-6">
+						<div class="col-md-12">
 						
 							<!-- Sales Chart -->
 							<div class="card card-chart">
 								<div class="card-header">
-									<h4 class="card-title">Revenue</h4>
+									<h4 class="card-title">Appointment per Doctor</h4><br>
+									<Button id="sortAppointment" onclick="sortAppointment()" >Sort / Not sort</Button>
 								</div>
 								<div class="card-body">
-									<div id="morrisArea"></div>
+									<div id="morrisBar"></div>
 								</div>
 							</div>
 							<!-- /Sales Chart -->
 							
 						</div>
-						<div class="col-md-12 col-lg-6">
+					</div>
+					<div class="row" style="display: none;">
+						<div class="col-md-12">
 						
 							<!-- Invoice Chart -->
 							<div class="card card-chart">
 								<div class="card-header">
-									<h4 class="card-title">Status</h4>
+									<h4 class="card-title">User Status</h4>
 								</div>
 								<div class="card-body">
 									<div id="morrisLine"></div>
@@ -409,6 +415,23 @@
 							
 						</div>	
 					</div>
+					<div class="row">
+						<div class="col-md-12">
+						
+							<!-- Hidden area Chart -->
+							<div class="card card-chart">
+								<div class="card-header">
+									<h4 class="card-title">Status</h4>
+								</div>
+								<div class="card-body">
+									<div id="morrisArea"></div>
+								</div>
+							</div>
+							<!-- /Area Chart -->
+							
+						</div>
+					</div>
+					
 					<div class="row">
 						<div class="col-md-6 d-flex">
 						
@@ -424,8 +447,7 @@
 												<tr>
 													<th>Doctor Name</th>
 													<th>Speciality</th>
-													<th>Earned</th>
-													<th>Reviews</th>
+													<th>Id</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -442,14 +464,15 @@
 														</h2>
 													</td>
 													<td><%=sp.getDoctorSp(doctor.getUser_parent_id()) %></td>
-													<td>$2003</td>
+													<td><%=doctor.getUser_id() %></td>
+													<!--  review <th>Review</th>
 													<td>
 														<i class="fe fe-star text-warning"></i>
 														<i class="fe fe-star text-warning"></i>
 														<i class="fe fe-star text-warning"></i>
 														<i class="fe fe-star text-warning"></i>
 														<i class="fe fe-star-o text-secondary"></i>
-													</td>
+													</td>-->
 												</tr>
 												<%} %>
 											</tbody>
@@ -542,14 +565,14 @@
 															<a href="profile.html">Dr. <%=doctor.getUser_fullname() %></a>
 														</h2>
 													</td>
-													<td><% %></td>
+													<td><%=sp.getDoctorSp(doctor.getUser_parent_id())%></td>
 													<td>
 														<h2 class="table-avatar">
 															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient1.jpg" alt="User Image"></a>
-															<a href="profile.html">Charlene Reed </a>
+															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
-													<td>9 Nov 2019 <span class="text-primary d-block">11.00 AM - 11.15 AM</span></td>
+													<td><%=app.getApp_date() %> <span class="text-primary d-block"><%=app.getApp_time() %></span></td>
 													<td>
 														<div class="status-toggle">
 															<input type="checkbox" id="status_1" class="check" checked>
@@ -557,7 +580,7 @@
 														</div>
 													</td>
 													<td class="text-right">
-														$200.00
+														$2003.00
 													</td>
 												</tr>
 												<%} %>
@@ -595,6 +618,92 @@
 		<!-- Custom JS -->
 		<script  src="assets/js/script.js"></script>
 		
+		<!-- Embed the Morris Bar Chart -->
+		<script>
+		window.mC = Morris.Bar({
+		    element: 'morrisBar',
+		    data: [
+		        { y: '2013', a: 30 },
+		        { y: '2014', a: 60 },
+		        { y: '2015', a: 90 },
+		        { y: '2016', a: 120 },
+		        { y: '2017', a: 150 },
+		        { y: '2018', a: 180 },
+		        { y: '2019', a: 210 },
+		    ],
+		    xkey: 'y',
+		    ykeys: ['a'],
+		    labels: ['Appointments'],
+		    barColors: ['#1b5a90'],
+		    gridTextSize: 10,
+		    hideHover: 'auto',
+		    resize: true,
+		    redraw: true
+		});
+		var data = []
+		var sortedData = []
+		<%	ArrayList<UserObject> doctorList = u.getAllDoctor(null);
+			for (UserObject doctor : doctorList) {	
+			int doctorApp = a.getTotalAppointment(doctor.getUser_id());%>
+			data.push({ y: '<%=doctor.getUser_id()%>', a: <%=doctorApp%> });
+		<%} %>
+		sortedData = data.slice().sort(function(a, b) {
+		    var aA = parseInt(a.a, 10);
+		    var bA = parseInt(b.a, 10);
+		    return aA - bA;
+		});
+		var currentData = data;  // Initially set to the original data
+
+		if (mC) {
+		    mC.setData(currentData);
+		    mC.redraw();
+		}
+
+		function sortAppointment() {
+		    // Check if the current data is the same as the original data
+		    function arraysEqual(arr1, arr2) {
+		        if (arr1.length !== arr2.length) return false;
+		        for (var i = 0; i < arr1.length; i++) {
+		            if (arr1[i] !== arr2[i]) return false;
+		        }
+		        return true;
+		    }
+
+		    if (arraysEqual(currentData, data)) {
+		        // If the current data is the same as the original data, switch to sorted data
+		        currentData = sortedData;
+		    } else {
+		        // If the current data is not the same as the original data, switch back to original data
+		        currentData = data;
+		    }
+
+		    if (mC) {
+		        mC.setData(currentData);
+		        mC.redraw();
+		    }
+		}
+		</script>
+		
+		<script>
+		<!-- Set data for line chart -->
+		var dataA = [];
+			<% //get map<app, total> of data
+			Map<String, Object> dataMap = new HashMap<>();
+			dataMap = a.countAppPerMonth();
+				
+			for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
+			    String key = entry.getKey();
+			    if (entry.getValue() instanceof Integer) {
+			        Integer value = (Integer) entry.getValue(); %>
+			        dataA.push({ y: '<%=key%>', a: <%=value%> });
+			        
+		  	<% } }%>
+		  	console.log("dataA: " + dataA);
+		  	if (mA) {
+		        mA.setData(dataA);
+		        mA.redraw();
+		    }
+		</script>
     </body>
 
 <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:34 GMT -->

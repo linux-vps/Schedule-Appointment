@@ -15,7 +15,7 @@ $(function(){
 	    ],
 	    xkey: 'y',
 	    ykeys: ['a'],
-	    labels: ['Revenue'],
+	    labels: ['Appointments'],
 	    lineColors: ['#1b5a90'],
 	    lineWidth: 2,
 		
@@ -47,9 +47,10 @@ $(function(){
 	    resize: true,
 		redraw: true
 	});
-	$(window).on("resize", function(){
-		mA.redraw();
-		mL.redraw();
-	});
+	
+    $(window).on("resize", function(){
+        mA.redraw();
+        mL.redraw();
+    });
 
 });

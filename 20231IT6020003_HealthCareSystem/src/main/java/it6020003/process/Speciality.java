@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import it6020003.ConnectionPool;
 import it6020003.ConnectionPoolImpl;
 import it6020003.objects.SpecialityObject;
+import it6020003.objects.UserObject;
 
 public class Speciality {
 	
@@ -100,12 +101,11 @@ public class Speciality {
 	}
 	public static void main(String[] args) {
 		Speciality sp = new Speciality();
-		String name = sp.getDoctorSp(1);
+		User u = new User();
+		UserObject doctor = u.getUserById(203);
+		String name = sp.getDoctorSp(doctor.getUser_parent_id());
 		System.out.print(name);
-		ArrayList<SpecialityObject> sps = sp.getSpecialityObjects(null, (byte) 10);
-		for (SpecialityObject s : sps) {
-			System.out.print(s.getSp_id());
-		}
+		
 	}
 
 }
