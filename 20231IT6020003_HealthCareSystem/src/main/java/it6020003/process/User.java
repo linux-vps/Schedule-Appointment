@@ -62,7 +62,8 @@ public class User {
 						item.setUser_last_logined(rs.getString("user_last_logined"));
 						item.setUser_notes(rs.getString("user_notes"));
 						item.setUser_parent_id(rs.getInt("user_parent_id"));
-						item.setUser_actions(rs.getInt("user_actions"));				   
+						item.setUser_actions(rs.getInt("user_actions"));
+						item.setUser_avatar(rs.getString("user_avatar"));
 						// Đưa vào tập hợp
 						items.add(item);
 					}
@@ -582,7 +583,7 @@ public class User {
                     item.setUser_notes(rs.getString("user_notes"));
                     item.setUser_parent_id(rs.getInt("user_parent_id"));
                     item.setUser_actions(rs.getInt("user_actions"));
-                    
+                    item.setUser_avatar(rs.getString("user_avatar"));
                     items.add(item);
                 }
             }
