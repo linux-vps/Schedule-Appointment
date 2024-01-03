@@ -353,15 +353,15 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor0.png" alt="User Image"></a>
-															<a href="profile.html">Dr. <%=doctor.getUser_fullname() %></a>
+															<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
+															<a href="">Dr. <%=doctor.getUser_fullname() %></a>
 														</h2>
 													</td>
 													<td><%=sp.getDoctorSp(doctor.getUser_parent_id())%></td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient0.png" alt="User Image"></a>
-															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
+															<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
+															<a href=""><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
 													<td><%=app.getApp_date() %><span class="text-primary d-block"><%=app.getApp_time() %></span></td>

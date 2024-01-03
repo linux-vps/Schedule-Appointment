@@ -122,6 +122,7 @@
 						HttpSession userSession = request.getSession();
 						UserObject loggedInUser = (UserObject) userSession .getAttribute("loggedInUser");
 						if (loggedInUser != null) {
+							
 					%>
 					<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow">
@@ -416,16 +417,32 @@
 							
 						</div>	
 					</div>
+					<div class="row" style="display: none;">
+						<div class="col-md-12">
+						
+							<!-- Invoice Chart -->
+							<div class="card card-chart">
+								<div class="card-header">
+									<h4 class="card-title">User Status</h4>
+								</div>
+								<div class="card-body">
+									<div id="morrisArea"></div>
+								</div>
+							</div>
+							<!-- /Invoice Chart -->
+							
+						</div>	
+					</div>
 					<div class="row">
 						<div class="col-md-12">
 						
-							<!-- Hidden area Chart -->
+							<!-- Area Chart -->
 							<div class="card card-chart">
 								<div class="card-header">
 									<h4 class="card-title">Status</h4>
 								</div>
 								<div class="card-body">
-									<div id="morrisArea"></div>
+									<canvas id="myAreaChart"></canvas>
 								</div>
 							</div>
 							<!-- /Area Chart -->
@@ -460,7 +477,7 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor0.png" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
 															<a href="profile.html">Dr. <%=doctor.getUser_fullname()  %></a>
 														</h2>
 													</td>
@@ -513,7 +530,7 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient0.png" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
 															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
@@ -562,21 +579,21 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor0.png" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
 															<a href="profile.html">Dr. <%=doctor.getUser_fullname() %></a>
 														</h2>
 													</td>
 													<td><%=sp.getDoctorSp(doctor.getUser_parent_id())%></td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient0.png" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
 															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
 													<td><%=app.getApp_date() %> <span class="text-primary d-block"><%=app.getApp_time() %></span></td>
 													<td>
 														<div class="status-toggle">
-															<input type="checkbox" id="status_1" class="check" checked>
+															<input type="checkbox" id="status+<%=app.getApp_id() %>" class="check" checked>
 															<label for="status_1" class="checktoggle">checkbox</label>
 														</div>
 													</td>
@@ -685,46 +702,60 @@
 		}
 		</script>
 		
+		<!-- Area chart -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script>
-		window.mA = Morris.Area({
-		    element: 'morrisArea',
-		    data: [
-		        { y: '2013', a: 60},
-		        { y: '2014', a: 100},
-		        { y: '2015', a: 240},
-		        { y: '2016', a: 120},
-		        { y: '2017', a: 80},
-		        { y: '2018', a: 100},
-		        { y: '2019', a: 300},
-		    ],
-		    xkey: 'y',
-		    ykeys: ['a'],
-		    labels: ['Appointments'],
-		    lineColors: ['#1b5a90'],
-		    lineWidth: 2,
-			
-	     	fillOpacity: 0.5,
-		    gridTextSize: 10,
-		    hideHover: 'auto',
-		    resize: true,
-			redraw: true
-		});
-		<!-- Set data for line chart -->
-		var dataA = [];
-			<% //get map<app, total> of data
-			List<String> month = new ArrayList<String>();
-			List<Integer> total = new ArrayList<Integer>();
-			if (a.countAppPerMonth(month, total)) {
-				for (int i=0; i<month.size(); i++) {%>
-				dataA.push({ y: '<%=month.get(i)%>', a: <%=total.get(i)%> });
- 
-		  	<%}}%>
-		  	console.log("dataA: " + dataA);
-		  	if (mA) {
-		        mA.setData(dataA);
-		        mA.redraw();
-		    }
-		</script>
+        <!-- Set data for line chart -->
+			var labelChart = []
+			var dataChart = []
+	        <%
+	        ArrayList<String> month = new ArrayList<String>();
+	        ArrayList<Integer> total = new ArrayList<Integer>();
+	        if (a.countAppPerMonth(month, total)) {
+	            for (int i = 0; i < month.size(); i++) {%>
+	            var mValue = '<%=month.get(i)%>';
+	            var tValue = <%= total.get(i)%>;
+	            labelChart.push(mValue);
+	            dataChart.push(tValue);
+	        <%}}%>
+	     // Data for the area chart
+        var data = {
+            labels: labelChart,
+            datasets: [{
+                label: 'Total appointment',
+                data: dataChart,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Area color
+                borderColor: 'rgba(75, 192, 192, 1)', // Border color
+                borderWidth: 1
+            }]
+        };
+
+        // Configuration options
+        var options = {
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: labelChart
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('myAreaChart').getContext('2d');
+
+        // Create the area chart
+        var myAreaChart = new Chart(ctx, {
+            type: 'line', // Specify the chart type as 'line' to create an area chart
+            data: data,
+            options: options
+        });
+        if (myAreaChart) {
+	        mC.redraw();
+	    }
+    </script>
     </body>
 
 <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:34 GMT -->

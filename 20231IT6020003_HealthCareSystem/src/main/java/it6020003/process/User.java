@@ -242,6 +242,7 @@ public class User {
 					item.setUser_parent_id(rs.getInt("user_parent_id"));
 					item.setUser_actions(rs.getInt("user_actions"));
 					item.setUser_notes(rs.getString("user_notes"));
+					item.setUser_avatar(rs.getString("user_avatar"));
 				}
 			}
 			
@@ -346,6 +347,7 @@ public class User {
 	                item.setUser_notes(rs.getString("user_notes"));
 	                item.setUser_parent_id(rs.getInt("user_parent_id"));
 	                item.setUser_actions(rs.getInt("user_actions"));
+	                item.setUser_avatar(rs.getString("user_avatar"));
 
 	                // Đưa vào tập hợp
 	                items.add(item);
@@ -480,6 +482,7 @@ public class User {
 	            user.setUser_notes(rs.getString("user_notes"));
 	            user.setUser_parent_id(rs.getInt("user_parent_id"));
 	            user.setUser_actions(rs.getInt("user_actions"));
+	            user.setUser_avatar(rs.getString("user_avatar"));
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();

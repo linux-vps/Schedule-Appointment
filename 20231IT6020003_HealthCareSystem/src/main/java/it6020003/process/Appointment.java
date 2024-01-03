@@ -200,7 +200,7 @@ public class Appointment {
     }
  // Hàm lấy dữ liệu cuộc hẹn từ cơ sở dữ liệu cho một người dùng cụ thể
     public ArrayList<Integer> getAppointmentStatusCountByUserId(int userId) {
-        System.out.print(userId);
+
         ArrayList<Integer> statusCounts = new ArrayList<>();
 
         // Khởi tạo mảng chứa số lượng cho từng trạng thái
@@ -693,19 +693,19 @@ public class Appointment {
 	}
 	public static void main(String[] args) {
 		Appointment a = new Appointment();
-		ArrayList<String> month = new ArrayList<String>();
-		ArrayList<Integer> total = new ArrayList<Integer>();
-		if(a.countAppPerMonth(month, total)) {
-			for (int i=0; i<month.size(); i++) {
-				System.out.println(month.get(i) + " " + total.get(i));
-			}
-		}
-//		User u = new User();
-//		ArrayList<UserObject> doctorList = u.getAllDoctor(null);
-//		for (UserObject doctor : doctorList) {	
-//			int doctorApp = a.getTotalAppointment(doctor.getUser_id());
-//			System.out.println(doctor.getUser_id() + " " + doctorApp);
-//		} 
+//		ArrayList<String> month = new ArrayList<String>();
+//		ArrayList<Integer> total = new ArrayList<Integer>();
+//		if(a.countAppPerMonth(month, total)) {
+//			for (int i=0; i<month.size(); i++) {
+//				System.out.println(month.get(i) + " " + total.get(i));
+//			}
+//		}
+		User u = new User();
+		ArrayList<UserObject> doctorList = u.getAllDoctor(null);
+		for (UserObject doctor : doctorList) {	
+			int doctorApp = a.getTotalAppointment(doctor.getUser_id());
+			System.out.println(doctor.getUser_id() + " " + doctorApp);
+		} 
 			
 		
 	}

@@ -76,21 +76,7 @@
 						<li>
 							<a href="index.jsp">Trang chủ</a>
                         </li>
-                        <li class="has-submenu">
-                            <a href="#">Bác sĩ <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="doctor-dashboard.html">Bảng điều khiển của bác sĩ</a></li>
-                                <li><a href="appointments.html">Cuộc hẹn</a></li>
-                                <li><a href="schedule-timings.html">Thời gian biểu</a></li>
-                                <li><a href="my-patients.html">Bệnh nhân của tôi</a></li>
-                                <li><a href="patient-profile.html">Hồ sơ bệnh nhân</a></li>
-                                <li><a href="chat-doctor.html">Trò chuyện</a></li>
-                                <li><a href="invoices.html">Hóa đơn</a></li>
-                                <li><a href="doctor-profile-settings.jsp">Cài đặt hồ sơ</a></li>
-                                <li><a href="reviews.html">Đánh giá</a></li>
-                                <li><a href="doctor-register.html">Đăng ký bác sĩ</a></li>
-                            </ul>
-                        </li>
+                        
                         <li class="has-submenu">
                             <a href="#">Bệnh nhân <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
