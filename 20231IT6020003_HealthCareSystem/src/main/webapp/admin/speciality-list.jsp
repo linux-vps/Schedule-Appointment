@@ -1,9 +1,28 @@
+<%@page import="it6020003.objects.UserObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="jakarta.servlet.http.HttpSession"%>
+<%@ page import="it6020003.objects.SpecialityObject"%>
+<%@ page import="it6020003.process.Speciality"%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
     
 <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/specialities.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:49 GMT -->
 <head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(".edit-btn").click(function() {
+        var spId = $(this).data("id");
+
+        // Đặt giá trị ID vào trường input trong modal
+        $("#edit_specialities_details input[name='sp_id']").val(spId);
+
+        // Hiển thị modal
+        $("#edit_specialities_details").modal('show');
+    });
+});
+</script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <title>Bệnh viện đa khoa Đan Phượng - Specialities Page</title>
@@ -169,7 +188,9 @@
 						</div>
 					</li>
 					<!-- /User Menu -->
-					<%} else {%>
+					<%} else {response.sendRedirect("../sign.jsp");
+					%>
+					
 						<li class="nav-item">
 						   <a class="nav-link header-login" href="../sign.jsp">Đăng nhập / Đăng ký</a>
 						</li>
@@ -330,123 +351,72 @@
 												</tr>
 											</thead>
 											<tbody>
+												<%
+												Speciality sp = new Speciality();
+												SpecialityObject searchSP = new SpecialityObject();
+												List<SpecialityObject> splist = sp.getSpecialityObjects(searchSP, 55);
+												for (SpecialityObject speciality : splist) {
+												%>
 												<tr>
-													<td>#SP001</td>
+													<td><%=speciality.getSp_id() %></td>
 													
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2">
-																<img class="avatar-img" src="assets/img/specialities/specialities-01.png" alt="Speciality">
-															</a>
-															<a href="profile.html">Urology</a>
+															
+															<a href="#"><%=speciality.getSp_name() %></a>
 														</h2>
 													</td>
-												
 													<td class="text-right">
 														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
-																<i class="fe fe-pencil"></i> Edit
+															<a class="btn btn-sm bg-success-light btn-edit-speciality"
+															   data-toggle="modal"
+															   data-id="<%=speciality.getSp_id()%>"
+															   data-name="<%=speciality.getSp_name()%>"
+															   data-description="<%=speciality.getSp_description()%>"
+															   href="#edit_specialities_details">
+															   <i class="fe fe-pencil"></i> Sửa
 															</a>
-															<a  data-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-																<i class="fe fe-trash"></i> Delete
+															<a  data-toggle="modal" href="#delete_modal" data-id="<%=speciality.getSp_id()%>" class="btn btn-sm bg-danger-light btn-delete-speciality">
+																<i class="fe fe-trash"></i> Xoá
 															</a>
 														</div>
 													</td>
 												</tr>
-												<tr>
-													<td>#SP002</td>
-													
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2">
-																<img class="avatar-img" src="assets/img/specialities/specialities-02.png" alt="Speciality">
-															</a>
-															<a href="profile.html">Neurology</a>
-														</h2>
-													</td>
-												
-													<td class="text-right">
-														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
-																<i class="fe fe-pencil"></i> Edit
-															</a>
-															<a  data-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-																<i class="fe fe-trash"></i> Delete
-															</a>
-														</div>
-													</td>
-												</tr>	
-												<tr>
-													<td>#SP003</td>
-													
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2">
-																<img class="avatar-img" src="assets/img/specialities/specialities-03.png" alt="Speciality">
-															</a>
-															<a href="profile.html">Orthopedic</a>
-														</h2>
-													</td>
-												
-													<td class="text-right">
-														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
-																<i class="fe fe-pencil"></i> Edit
-															</a>
-															<a  data-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-																<i class="fe fe-trash"></i> Delete
-															</a>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>#SP004</td>
-													
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2">
-																<img class="avatar-img" src="assets/img/specialities/specialities-04.png" alt="Speciality">
-															</a>
-															<a href="profile.html">Cardiologist</a>
-														</h2>
-													</td>
-												
-													<td class="text-right">
-														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
-																<i class="fe fe-pencil"></i> Edit
-															</a>
-															<a  data-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-																<i class="fe fe-trash"></i> Delete
-															</a>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>#SP005</td>
-													
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2">
-																<img class="avatar-img" src="assets/img/specialities/specialities-05.png" alt="Speciality">
-															</a>
-															<a href="profile.html">Dentist</a>
-														</h2>
-													</td>
-												
-													<td class="text-right">
-														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
-																<i class="fe fe-pencil"></i> Edit
-															</a>
-															<a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#delete_modal">
-																<i class="fe fe-trash"></i> Delete
-															</a>
-														</div>
-													</td>
-												</tr>
+												<%
+												}
+												%>											
 											</tbody>
 										</table>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Lắng nghe sự kiện click trên phần tử cha (ở đây là body)
+    document.body.addEventListener('click', function (event) {
+        var target = event.target;
+
+        // Kiểm tra xem phần tử được click có class là btn-edit-speciality hay không
+        if (target.classList.contains('btn-edit-speciality')) {
+            // Lấy thông tin từ phần tử được click
+            var spId = target.getAttribute('data-id');
+            var spName = target.getAttribute('data-name');
+            var spDescription = target.getAttribute('data-description');
+
+            // Điền thông tin vào modal sửa
+            document.getElementById('spIdEdit').value = spId;
+            document.getElementById('spNameEdit').value = spName;
+            document.getElementById('spDesEdit').value = spDescription;
+
+            // Mở modal sửa
+            $('#edit_specialities_details').modal('show');
+        } else if (target.classList.contains('btn-delete-speciality')) {
+            // Xử lý sự kiện xoá tương tự như trên
+            var spIdDel = target.getAttribute('data-id');
+            document.getElementById('spIdDel').value = spIdDel;
+            $('#delete_modal').modal('show');
+        }
+        
+    });
+});
+</script>
 									</div>
 								</div>
 							</div>
@@ -462,64 +432,63 @@
 				<div class="modal-dialog modal-dialog-centered" role="document" >
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Add Specialities</h5>
+							<h5 class="modal-title">Thêm chuyên ngành</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-							<form>
+							<form action="../adminSpecialityAdd" method="post">
 								<div class="row form-row">
-									<div class="col-12 col-sm-6">
+									<div class="col-12 col-sm-12">
 										<div class="form-group">
-											<label>Specialities</label>
-											<input type="text" class="form-control">
+											<label>Chuyên ngành</label>
+											<input type="text" class="form-control" name="sp_name_add">
 										</div>
 									</div>
-									<div class="col-12 col-sm-6">
+									<div class="col-12 col-sm-12">
 										<div class="form-group">
-											<label>Image</label>
-											<input type="file"  class="form-control">
+											<label>Mô tả</label>
+											<input type="text"  class="form-control" name="sp_des_add">
 										</div>
-									</div>
-									
+									</div>								
 								</div>
-								<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+								<button type="submit" class="btn btn-primary btn-block">Thêm</button>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- /ADD Modal -->
-			
 			<!-- Edit Details Modal -->
 			<div class="modal fade" id="edit_specialities_details" aria-hidden="true" role="dialog">
 				<div class="modal-dialog modal-dialog-centered" role="document" >
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Edit Specialities</h5>
+							<h5 class="modal-title">Sửa chuyên ngành</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-							<form>
+							<form action="../adminSpecialityEdit" method="post">
 								<div class="row form-row">
-									<div class="col-12 col-sm-6">
+									<div class="col-12 col-sm-12">
 										<div class="form-group">
-											<label>Specialities</label>
-											<input type="text" class="form-control" value="Cardiology">
+											<label>Chuyên ngành</label>
+											<input type="text" class="form-control" id="spNameEdit" name='sp_name'>
 										</div>
 									</div>
-									<div class="col-12 col-sm-6">
+									<div class="col-12 col-sm-12">
 										<div class="form-group">
-											<label>Image</label>
-											<input type="file"  class="form-control">
+											<label>Mô tả</label>
+											<input type="text"  class="form-control" id="spDesEdit" name="sp_description">
 										</div>
 									</div>
 									
 								</div>
-								<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+								<input type="hidden" name="sp_id" id='spIdEdit'>
+								<button type="submit" class="btn btn-primary btn-block">Lưu thay đổi</button>
 							</form>
 						</div>
 					</div>
@@ -537,14 +506,17 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>-->
+						<form action="../adminSpecialityDelete" method="post">
 						<div class="modal-body">
 							<div class="form-content p-2">
-								<h4 class="modal-title">Delete</h4>
-								<p class="mb-4">Are you sure want to delete?</p>
-								<button type="button" class="btn btn-primary">Save </button>
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+								<h4 class="modal-title">Xoá chuyên ngành</h4>
+								<p class="mb-4">Bạn có chắc chắn muốn xoá?</p>
+								<input type="hidden" name="sp_id_del" id='spIdDel'>
+								<button type="submit" class="btn btn-primary">Xoá</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Không</button>
 							</div>
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>

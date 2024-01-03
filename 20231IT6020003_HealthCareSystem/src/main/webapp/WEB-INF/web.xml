@@ -109,4 +109,34 @@
     <servlet-name>LogoutControl</servlet-name>
     <url-pattern>/LogoutControl</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>adminSpecialityEdit</display-name>
+    <servlet-name>adminSpecialityEdit</servlet-name>
+    <servlet-class>it6020003.servlet.adminSpecialityEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminSpecialityEdit</servlet-name>
+    <url-pattern>/adminSpecialityEdit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>adminSpecialityDelete</display-name>
+    <servlet-name>adminSpecialityDelete</servlet-name>
+    <servlet-class>it6020003.servlet.adminSpecialityDelete</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminSpecialityDelete</servlet-name>
+    <url-pattern>/adminSpecialityDelete</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>adminSpecialityAdd</display-name>
+    <servlet-name>adminSpecialityAdd</servlet-name>
+    <servlet-class>it6020003.servlet.adminSpecialityAdd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminSpecialityAdd</servlet-name>
+    <url-pattern>/adminSpecialityAdd</url-pattern>
+  </servlet-mapping>
 </web-app>

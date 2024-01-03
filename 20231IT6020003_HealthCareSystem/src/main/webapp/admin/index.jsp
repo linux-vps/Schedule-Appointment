@@ -140,7 +140,7 @@
 						</div>
 					</li>
 					<!-- /User Menu -->
-					<%} else {%>
+					<%} else {response.sendRedirect("../sign.jsp");%>
 						<li class="nav-item">
 						   <a class="nav-link header-login" href="../sign.jsp">Đăng nhập / Đăng ký</a>
 						</li>
@@ -167,7 +167,7 @@
 								<a href=""><i class="fe fe-layout"></i> <span>Appointments</span></a>
 							</li>
 							<li> 
-								<a href=""><i class="fe fe-users"></i> <span>Specialities</span></a>
+								<a href="speciality-list.jsp"><i class="fe fe-users"></i> <span>Specialities</span></a>
 							</li>
 							<li> 
 								<a href=""><i class="fe fe-user-plus"></i> <span>Doctors</span></a>

@@ -28,7 +28,7 @@ public class Speciality {
 		
 	}
 	
-	public ArrayList <SpecialityObject> getSpecialityObjects(SpecialityObject similar, byte total){		
+	public ArrayList <SpecialityObject> getSpecialityObjects(SpecialityObject similar, int total){		
 		ArrayList <SpecialityObject> items = new ArrayList <>();
 		SpecialityObject item;
 		String sql = "";
@@ -39,7 +39,7 @@ public class Speciality {
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql);				
 			//Truyền giá trị cho tham số, tổng số bản ghi
-			pre.setByte(1, total);				
+			pre.setInt(1, total);				
 			ResultSet rs = pre.executeQuery(); // Lấy về tập kết quả
 			if (rs != null) {
 				while (rs.next()) {
@@ -72,6 +72,86 @@ public class Speciality {
 		}		
 		return items;		
 	}	
+	// Xoá
+	public boolean deleteSpeciality(int spId) {
+	    String sql = "DELETE FROM tblspeciality WHERE sp_id=?";
+	    try {
+	        PreparedStatement pre = this.con.prepareStatement(sql);
+	        pre.setInt(1, spId);
+
+	        int rowsAffected = pre.executeUpdate();
+	        if (rowsAffected > 0) {
+	            this.con.commit();
+	            return true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            this.con.rollback();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        }
+	    }
+	    return false;
+	}
+	
+	//Sửa
+	public boolean updateSpeciality(SpecialityObject updatedSpeciality) {
+	    String sql = "UPDATE tblspeciality SET sp_name=?, sp_description=?, sp_notes=?, sp_language=?, sp_modified_date=?, sp_deleted=? WHERE sp_id=?";
+	    try {
+	        PreparedStatement pre = this.con.prepareStatement(sql);
+	        pre.setString(1, updatedSpeciality.getSp_name());
+	        pre.setString(2, updatedSpeciality.getSp_description());
+	        pre.setString(3, updatedSpeciality.getSp_notes());
+	        pre.setString(4, updatedSpeciality.getSp_language());
+	        pre.setString(5, updatedSpeciality.getSp_modified_date());
+	        pre.setBoolean(6, updatedSpeciality.isSp_deleted());
+	        pre.setInt(7, updatedSpeciality.getSp_id());
+	        int rowsAffected = pre.executeUpdate();
+	        if (rowsAffected > 0) {
+	            this.con.commit();
+	            return true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            this.con.rollback();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        }
+	    }
+	    return false;
+	}
+	// Thêm
+	public boolean addSpeciality(SpecialityObject newSpeciality) {
+	    String sql = "INSERT INTO tblspeciality (sp_name, sp_description, sp_notes, sp_language, sp_created_date, sp_deleted) VALUES (?, ?, ?, ?, ?, ?)";
+	    try {
+	        PreparedStatement pre = this.con.prepareStatement(sql);
+	        pre.setString(1, newSpeciality.getSp_name());
+	        pre.setString(2, newSpeciality.getSp_description());
+	        pre.setString(3, newSpeciality.getSp_notes());
+	        pre.setString(4, newSpeciality.getSp_language());
+	        pre.setString(5, newSpeciality.getSp_created_date());
+	        pre.setBoolean(6, newSpeciality.isSp_deleted());
+
+	        int rowsAffected = pre.executeUpdate();
+	        if (rowsAffected > 0) {
+	            this.con.commit();
+	            return true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            this.con.rollback();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        }
+	    }
+	    return false;
+	}
+
+
+
 
 
 	public String getDoctorSp(int spId) {
@@ -107,5 +187,4 @@ public class Speciality {
 			System.out.print(s.getSp_id());
 		}
 	}
-
 }
