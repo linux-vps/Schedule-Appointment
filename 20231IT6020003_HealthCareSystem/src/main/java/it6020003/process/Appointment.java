@@ -294,6 +294,37 @@ public class Appointment {
         }
         return 0;
     }
+    public Map<String, Object> countAppPerMonth() {
+        // Create and return a HashMap
+    	Map<String, Object> resultMap = new HashMap<>();
+    	
+    	StringBuilder sql = new StringBuilder();
+    	sql.append("SELECT DATE_FORMAT(STR_TO_DATE(app_date, '%d/%m/%Y'), '%m/%Y') AS month, ");
+    	sql.append("COUNT(app_id) AS total ");
+    	sql.append("FROM tblappointment ");
+    	sql.append("GROUP BY month, DATE_FORMAT(STR_TO_DATE(app_date, '%d/%m/%Y'), '%Y') ");
+    	sql.append("ORDER BY DATE_FORMAT(STR_TO_DATE(app_date, '%d/%m/%Y'), '%Y'), month; ");
+    	
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			ResultSet rs = pre.executeQuery();
+	    	if (rs != null) {
+	    		while (rs.next()) {
+	    			resultMap.put("month", rs.getString("month"));
+	    			resultMap.put("total", rs.getInt("total"));
+	    		}
+	    	}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+        return resultMap;
+    }
     
     
     // SAC
@@ -625,6 +656,7 @@ public class Appointment {
 		
 		try {
             PreparedStatement pre = this.con.prepareStatement(sql.toString());
+            pre.setInt(1, number_days);
             ResultSet rs = pre.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
@@ -654,6 +686,19 @@ public class Appointment {
             }
         }
         return items;
+	}
+	public static void main(String[] args) {
+		Appointment a = new Appointment();
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap = a.countAppPerMonth();
+			
+		for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
+		    String key = entry.getKey();
+		    if (entry.getValue() instanceof Integer) {
+		        Integer value = (Integer) entry.getValue(); 
+		        System.out.print(key + " " + value + "\n");
+		    }
+		}
 	}
 }
    
