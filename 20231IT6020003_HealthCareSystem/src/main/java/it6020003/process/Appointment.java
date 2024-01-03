@@ -294,9 +294,10 @@ public class Appointment {
         }
         return 0;
     }
-    public Map<String, Object> countAppPerMonth() {
-        // Create and return a HashMap
-    	Map<String, Object> resultMap = new HashMap<>();
+    public boolean countAppPerMonth(List<String> month, List<Integer> total) {
+        
+    	month.clear();
+    	total.clear();
     	
     	StringBuilder sql = new StringBuilder();
     	sql.append("SELECT DATE_FORMAT(STR_TO_DATE(app_date, '%d/%m/%Y'), '%m/%Y') AS month, ");
@@ -310,9 +311,12 @@ public class Appointment {
 			ResultSet rs = pre.executeQuery();
 	    	if (rs != null) {
 	    		while (rs.next()) {
-	    			resultMap.put("month", rs.getString("month"));
-	    			resultMap.put("total", rs.getInt("total"));
+	    			month.add(rs.getString("month"));
+	    			total.add(rs.getInt("total"));
 	    		}
+	    	}
+	    	if (month.size() == total.size()) {
+	    		return true;
 	    	}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -323,7 +327,7 @@ public class Appointment {
 			}
 		}
 		
-        return resultMap;
+        return false;
     }
     
     
@@ -651,8 +655,8 @@ public class Appointment {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblappointment ");
 		sql.append("WHERE ");
-		sql.append("DATEDIFF(CURDATE(), STR_TO_DATE(app_created_date, '%d/%m/%Y')) < ?");
-		sql.append("");
+		sql.append("DATEDIFF(CURDATE(), STR_TO_DATE(app_date, '%d/%m/%Y')) < ? ");
+		sql.append("ORDER BY STR_TO_DATE(app_date, '%d/%m/%Y') desc ");
 		
 		try {
             PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -689,16 +693,21 @@ public class Appointment {
 	}
 	public static void main(String[] args) {
 		Appointment a = new Appointment();
-		Map<String, Object> dataMap = new HashMap<>();
-		dataMap = a.countAppPerMonth();
-			
-		for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
-		    String key = entry.getKey();
-		    if (entry.getValue() instanceof Integer) {
-		        Integer value = (Integer) entry.getValue(); 
-		        System.out.print(key + " " + value + "\n");
-		    }
+		ArrayList<String> month = new ArrayList<String>();
+		ArrayList<Integer> total = new ArrayList<Integer>();
+		if(a.countAppPerMonth(month, total)) {
+			for (int i=0; i<month.size(); i++) {
+				System.out.println(month.get(i) + " " + total.get(i));
+			}
 		}
+//		User u = new User();
+//		ArrayList<UserObject> doctorList = u.getAllDoctor(null);
+//		for (UserObject doctor : doctorList) {	
+//			int doctorApp = a.getTotalAppointment(doctor.getUser_id());
+//			System.out.println(doctor.getUser_id() + " " + doctorApp);
+//		} 
+			
+		
 	}
 }
    

@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Collections"%>
@@ -459,7 +460,7 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpg" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor0.png" alt="User Image"></a>
 															<a href="profile.html">Dr. <%=doctor.getUser_fullname()  %></a>
 														</h2>
 													</td>
@@ -512,7 +513,7 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient1.jpg" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient0.png" alt="User Image"></a>
 															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
@@ -555,20 +556,20 @@
 											<%// get recent appointment
 											ArrayList<AppointmentObject> apps = a.getAppointmentFromNow(null, 10);
 											for (AppointmentObject app : apps) {
-												UserObject doctor = u.getUserById(app.getUser_id());
-												UserObject patient = u.getUserById(app.getDoctor_id());
+												UserObject doctor = u.getUserById(app.getDoctor_id());
+												UserObject patient = u.getUserById(app.getUser_id());
 											%>
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor-thumb-01.jpg" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/doctors/doctor0.png" alt="User Image"></a>
 															<a href="profile.html">Dr. <%=doctor.getUser_fullname() %></a>
 														</h2>
 													</td>
 													<td><%=sp.getDoctorSp(doctor.getUser_parent_id())%></td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient1.jpg" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="assets/img/patients/patient0.png" alt="User Image"></a>
 															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
@@ -676,7 +677,7 @@
 		        // If the current data is not the same as the original data, switch back to original data
 		        currentData = data;
 		    }
-
+		    console.log("dataB: " + currentData);
 		    if (mC) {
 		        mC.setData(currentData);
 		        mC.redraw();
@@ -685,19 +686,39 @@
 		</script>
 		
 		<script>
+		window.mA = Morris.Area({
+		    element: 'morrisArea',
+		    data: [
+		        { y: '2013', a: 60},
+		        { y: '2014', a: 100},
+		        { y: '2015', a: 240},
+		        { y: '2016', a: 120},
+		        { y: '2017', a: 80},
+		        { y: '2018', a: 100},
+		        { y: '2019', a: 300},
+		    ],
+		    xkey: 'y',
+		    ykeys: ['a'],
+		    labels: ['Appointments'],
+		    lineColors: ['#1b5a90'],
+		    lineWidth: 2,
+			
+	     	fillOpacity: 0.5,
+		    gridTextSize: 10,
+		    hideHover: 'auto',
+		    resize: true,
+			redraw: true
+		});
 		<!-- Set data for line chart -->
 		var dataA = [];
 			<% //get map<app, total> of data
-			Map<String, Object> dataMap = new HashMap<>();
-			dataMap = a.countAppPerMonth();
-				
-			for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
-			    String key = entry.getKey();
-			    if (entry.getValue() instanceof Integer) {
-			        Integer value = (Integer) entry.getValue(); %>
-			        dataA.push({ y: '<%=key%>', a: <%=value%> });
-			        
-		  	<% } }%>
+			List<String> month = new ArrayList<String>();
+			List<Integer> total = new ArrayList<Integer>();
+			if (a.countAppPerMonth(month, total)) {
+				for (int i=0; i<month.size(); i++) {%>
+				dataA.push({ y: '<%=month.get(i)%>', a: <%=total.get(i)%> });
+ 
+		  	<%}}%>
 		  	console.log("dataA: " + dataA);
 		  	if (mA) {
 		        mA.setData(dataA);
