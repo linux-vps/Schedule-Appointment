@@ -1,8 +1,12 @@
+<<<<<<< HEAD
+
+=======
 <%@page import="it6020003.process.Speciality"%>
 <%@page import="it6020003.process.User"%>
 <%@page import="it6020003.objects.AppointmentObject"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="it6020003.process.Appointment"%>
+>>>>>>> be81f49c86e8b3c9fa886437d7ece2b5cd554549
 <%@page import="it6020003.objects.UserObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>

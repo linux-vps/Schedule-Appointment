@@ -21,6 +21,7 @@ public class UserObject implements Serializable {
 	private String user_last_modified;
 	private String user_last_logined;
 	private String user_notes;
+	private String user_avatar;
 	private int user_parent_id;
 	private int user_actions;
 	
@@ -29,7 +30,7 @@ public class UserObject implements Serializable {
 			String user_password, String user_email, String user_address, String user_job, String user_jobarea,
 			int user_permission, String user_roles, int user_logined, String user_created_date,
 			String user_last_modified, String user_last_logined, String user_notes, int user_parent_id,
-			int user_actions) {
+			int user_actions, String user_avatar) {
 		super();
 		this.user_id = user_id;
 		this.user_name = user_name;
@@ -50,6 +51,7 @@ public class UserObject implements Serializable {
 		this.user_notes = user_notes;
 		this.user_parent_id = user_parent_id;
 		this.user_actions = user_actions;
+		this.user_avatar = user_avatar;
 	}
 
 
@@ -306,6 +308,15 @@ public int getUser_id() {
 	            "Logined: " + this.user_logined,
 	            "Notes: " + this.user_notes);
 	   
+	}
+
+
+	public String getUser_avatar() {
+		return user_avatar;
+	}
+
+	public void setUser_avatar(String user_avatar) {
+		this.user_avatar = user_avatar;
 	}
 }
 

@@ -62,7 +62,8 @@ public class User {
 						item.setUser_last_logined(rs.getString("user_last_logined"));
 						item.setUser_notes(rs.getString("user_notes"));
 						item.setUser_parent_id(rs.getInt("user_parent_id"));
-						item.setUser_actions(rs.getInt("user_actions"));				   
+						item.setUser_actions(rs.getInt("user_actions"));
+						item.setUser_avatar(rs.getString("user_avatar"));
 						// Đưa vào tập hợp
 						items.add(item);
 					}
@@ -550,197 +551,55 @@ public class User {
         }
         return false;
     }
-	public static void main(String[] args) {
-		//Tao doi tuong lam viec voi User
-		User user = new User();
-		Scanner scanner = new Scanner(System.in);
-		//Tao doi tuong user moi
-		UserObject nu = new UserObject();	
-		while (true) {
-			System.out.println("\n\n");
-            System.out.println("=========== MENU QUẢN LÝ user ===========");
-            System.out.println("1. Thêm user");
-            System.out.println("2. Sửa user");
-            System.out.println("3. Xoá user");
-            System.out.println("4. Tìm kiếm theo tên");
-            System.out.println("5. Tìm kiếm theo điền kiện");
-            System.out.println("6. Đếm số lượng theo điều kiện");
-            System.out.println("7. Hiển thị danh sách user hiện tại");
-            System.out.println("8. Đăng nhập");
-            System.out.println("9. Đăng ký");
-            System.out.println("0. Thoát");
-            System.out.println("===================================================");
-            System.out.println("\n");
-            System.out.print("Chọn chức năng (0-7): ");                 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Loại bỏ ký tự new line
-            System.out.println("\n\n");
-            switch (choice) {
-                case 1:
-                    // Thêm user         
-                    System.out.print("Nhập tên user: ");
-                    String userNameAdd = scanner.nextLine();
-                    nu.setUser_name(userNameAdd);
-                    System.out.print("Nhập tên user full name: ");
-                    String userFullNameAdd = scanner.nextLine();
-                    nu.setUser_fullname(userFullNameAdd);
-                    System.out.print("Nhập SĐT: ");
-                    String phoneAdd = scanner.nextLine();
-                    nu.setUser_phone(phoneAdd);
-                    System.out.print("Nhập mật khẩu: ");
-                    String userPasswordAdd = scanner.nextLine();
-                    nu.setUser_password(userPasswordAdd);
-                    scanner.nextLine(); // Loại bỏ ký tự new line
-                    
-                    // Set các thuộc tính khác tương tự như trên
-                    System.out.println("\n\n");
-                    if (user.addUser(nu)) {
-                        System.out.println("Thêm user thành công!");
-                    } else {
-                        System.out.println("Thêm user ---KHÔNG THÀNH CÔNG---!");
-                    }
-                    System.out.println("\n\n");
-                    break;
-                case 2:
-                	// Sửa user
-                	System.out.print("Nhập id của user cần sửa: ");
-                	short user_ID_Update = scanner.nextShort();
-                	scanner.nextLine(); // Loại bỏ ký tự new line
-                	nu.setUser_id(user_ID_Update);              	
-                    System.out.print("Nhập tên user: ");
-                    String user_Name_Update = scanner.nextLine();
-                    nu.setUser_name(user_Name_Update);
-                    System.out.print("Nhập tên user full name: ");
-                    String userFullNameUpdate = scanner.nextLine();
-                    nu.setUser_fullname(userFullNameUpdate);
-                    System.out.print("Nhập SĐT: ");
-                    String phoneUpdate = scanner.nextLine();
-                    nu.setUser_phone(phoneUpdate);
-                    System.out.print("Nhập mật khẩu: ");
-                    String userPasswordUpdate = scanner.nextLine();
-                    nu.setUser_password(userPasswordUpdate);
-                    scanner.nextLine(); // Loại bỏ ký tự new line
-                    System.out.println("\n\n");
-                    if (user.updateUser(nu)) {
-                        System.out.println("Sửa user thành công!");
-                    } else {
-                        System.out.println("Sửa user ---KHÔNG THÀNH CÔNG---!");
-                    }
-                    System.out.println("\n\n");
-                    break;
-                case 3:
-                	// Xoá user
-                	System.out.print("Nhập id của user cần xoá: ");
-                	short user_ID_Del = scanner.nextShort();
-                	nu.setUser_id(user_ID_Del);
-                	System.out.println("\n\n");
-            		if(!user.deleteUser(user_ID_Del)) {
-            			System.out.println("Xoá user" + user_ID_Del + "---KHÔNG THÀNH CÔNG---!");
-	        		} else {
-	        			System.out.println("Xoá user thành công!");
-	        		}
-            		System.out.println("\n\n");
-                    break;
-                case 4:
-                	// Tìm kiếm theo tên
-            	    // Tìm kiếm các User có ps_name chứa từ khoá là String
-                    System.out.print("Nhập tên user cần tìm kiếm: ");
-                    String user_Name_Search = scanner.nextLine();
-            		ArrayList<UserObject> search = user.searchUserByName(user_Name_Search);           		
-            		if (search == null) {
-            			System.out.println("Tìm kiếm user " + user_Name_Search + " ---KHÔNG THÀNH CÔNG---!");
-            		} else {
-                		//In ra man hinh
-                		System.out.println("\n\n");
-                		search.forEach(item -> {
-                			System.out.println(item);
-                		});
-                		System.out.println("\n\n");
-            		}            		
-                	break;
-                case 5:       
-            		// Tìm kiếm theo điều kiện   
-                    System.out.print("Nhập điều kiện: ");
-                    System.out.print("SELECT COUNT(*) FROM tbluser WHERE ");
-                    String user_Condittion = scanner.nextLine();
-            		ArrayList<UserObject> search_condition = user.searchUserByCondition(user_Condittion);
-            		if (search_condition == null) {
-            			System.out.println("Tìm user thoả mãn '" + search_condition + "' ---KHÔNG THÀNH CÔNG---!");
-            		} else {
-                		System.out.println("\n\n");
-                		search_condition.forEach(item -> {
-                			System.out.println(item);
-                		});
-                		System.out.println("\n\n");
-            		}
-                	break;
-                case 6:
-            		// Đếm theo điều kiện String "chuỗi điều kiện"
-                	System.out.print("Nhập điều kiện: ");
-                    System.out.print("SELECT COUNT(*) FROM tbluser WHERE ");
-                    String Condition = scanner.nextLine();
-            		int productCount = user.countUserByCondition(Condition);	
-            		if(productCount == 0) {
-            			System.out.println("---KHÔNG THÀNH CÔNG KHI ĐẾM SỐ LƯỢNG THEO ĐIỀU KIỆN---");
-            		}
-            		else {
-            			System.out.println("Số user thoả mãn điều kiện "+Condition+" là: ");
-            			System.out.println(productCount);
-            		}
-                	break;              	
-                case 7:
-                    // Hiển thị danh sách
-            		ArrayList<UserObject> items = user.getUserObjects(null, (byte)10);
-            		//In ra man hinh
-            		items.forEach(item -> {
-            			System.out.println(item);
-            		});           		
-                    break;
-                case 8:
-                    // Kiểm tra đăng nhập
-                    System.out.print("Nhập tên đăng nhập: ");
-                    String loginUsername = scanner.nextLine();
-                    System.out.print("Nhập mật khẩu: ");
-                    String loginPassword = scanner.nextLine();
-                    UserObject loggedInUser = user.checkLogin(loginUsername, loginPassword);
-
-                    if (loggedInUser != null) {
-                        System.out.println("Đăng nhập thành công!");
-                        // Thực hiện các hành động sau khi đăng nhập thành công
-                    } else {
-                        System.out.println("Đăng nhập thất bại. Tên đăng nhập hoặc mật khẩu không đúng.");
-                    }
-                    break;
-                case 9:
-                    // Đăng ký tài khoản mới
-                    System.out.print("Nhập tên đăng nhập mới: ");
-                    String newUsername = scanner.nextLine();
-                    System.out.print("Nhập mật khẩu mới: ");
-                    String newPassword = scanner.nextLine();
-//                    System.out.print("Nhập họ tên: ");
-//                    String newFullName = scanner.nextLine();
-//                    System.out.print("Nhập số điện thoại: ");
-//                    String newPhone = scanner.nextLine();
-                    System.out.print("Nhập địa chỉ email: ");
-                    String newEmail = scanner.nextLine();
-
-                    if (user.registerUser(newUsername, newPassword, newEmail)) {
-                        System.out.println("Đăng ký thành công!");
-                    } else {
-                        System.out.println("Đăng ký thất bại. Có lỗi xảy ra.");
-                    }
-                    break;
-
-                case 0:
-                    System.out.println("Thoát chương trình. Cảm ơn!");
-                    scanner.close();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Chọn sai. Vui lòng chọn lại.");
-                    break;
+    // Tìm theo vai trò
+    public ArrayList<UserObject> getUsersByRole(String role) {
+        ArrayList<UserObject> items = new ArrayList<>();
+        UserObject item;
+        
+        String sql = "SELECT * FROM tbluser WHERE user_roles = ? ORDER BY user_id ASC";
+        
+        try (PreparedStatement pre = this.con.prepareStatement(sql)) {
+            pre.setString(1, role);
+            
+            try (ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    item = new UserObject();
+                    item.setUser_id(rs.getInt("user_id"));
+                    item.setUser_name(rs.getString("user_name"));
+                    item.setUser_fullname(rs.getString("user_fullname"));
+                    item.setUser_phone(rs.getString("user_phone"));
+                    item.setUser_birthday(rs.getString("user_birthday"));
+                    item.setUser_password(rs.getString("user_password"));
+                    item.setUser_email(rs.getString("user_email"));
+                    item.setUser_address(rs.getString("user_address"));
+                    item.setUser_job(rs.getString("user_job"));
+                    item.setUser_jobarea(rs.getString("user_jobarea"));
+                    item.setUser_permission(rs.getInt("user_permission"));
+                    item.setUser_roles(rs.getString("user_roles"));
+                    item.setUser_logined(rs.getInt("user_logined"));
+                    item.setUser_created_date(rs.getString("user_created_date"));
+                    item.setUser_last_modified(rs.getString("user_last_modified"));
+                    item.setUser_last_logined(rs.getString("user_last_logined"));
+                    item.setUser_notes(rs.getString("user_notes"));
+                    item.setUser_parent_id(rs.getInt("user_parent_id"));
+                    item.setUser_actions(rs.getInt("user_actions"));
+                    item.setUser_avatar(rs.getString("user_avatar"));
+                    items.add(item);
+                }
             }
-		}
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+            
+            // Trở về trạng thái an toàn của kết nối
+            try {
+                this.con.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+        
+        return items;
+    }
+
 }
 
