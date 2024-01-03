@@ -21,6 +21,7 @@ public class UserObject implements Serializable {
 	private String user_last_modified;
 	private String user_last_logined;
 	private String user_notes;
+	private String user_avatar;
 	private int user_parent_id;
 	private int user_actions;
 	
@@ -306,6 +307,18 @@ public int getUser_id() {
 	            "Logined: " + this.user_logined,
 	            "Notes: " + this.user_notes);
 	   
+	}
+
+
+
+	public String getUser_avatar() {
+		return user_avatar;
+	}
+
+
+
+	public void setUser_avatar(String user_avatar) {
+		this.user_avatar = user_avatar;
 	}
 }
 
