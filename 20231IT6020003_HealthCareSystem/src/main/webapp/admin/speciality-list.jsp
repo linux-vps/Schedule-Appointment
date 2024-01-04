@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function () {
 							<div class="form-content p-2">
 								<h4 class="modal-title">Xoá chuyên ngành</h4>
 								<p class="mb-4">Bạn có chắc chắn muốn xoá?</p>
-								<input type="hidden" name="sp_id_del" id='spIdDel'>
+								<input type="hidden" name="sp_id_del" id="spIdDel">
 								<button type="submit" class="btn btn-primary">Xoá</button>
 								<button type="button" class="btn btn-danger" data-dismiss="modal">Không</button>
 							</div>

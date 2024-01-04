@@ -294,6 +294,7 @@ if (loggedInUser == null) {
 					</div>
 
 					<div class="col-md-12 col-lg-8 col-xl-9">
+					
 
 						<!-- Doctor Widget -->
 						<div class="card">

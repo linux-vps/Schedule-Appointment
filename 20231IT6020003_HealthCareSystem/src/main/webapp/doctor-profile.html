@@ -50,13 +50,13 @@
 							<span></span>
 						</span>
 					</a>
-					<a href="index.html" class="navbar-brand logo">
+					<a href="index.jsp" class="navbar-brand logo">
 						<img src="assets/img/logo.png" class="img-fluid" alt="Logo">
 					</a>
 				</div>
 				<div class="main-menu-wrapper">
 					<div class="menu-header">
-						<a href="index.html" class="menu-logo">
+						<a href="index.jsp" class="menu-logo">
 							<img src="assets/img/logo.png" class="img-fluid" alt="Logo">
 						</a>
 						<a id="menu_close" class="menu-close" href="javascript:void(0);">
@@ -65,43 +65,29 @@
 					</div>
 					<ul class="main-nav">
 						<li>
-							<a href="index.html">Trang chủ</a>
+							<a href="index.jsp">Trang chủ</a>
                         </li>
-                        <li class="has-submenu">
-                            <a href="#">Bác sĩ <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="doctor-dashboard.html">Bảng điều khiển của bác sĩ</a></li>
-                                <li><a href="appointments.html">Cuộc hẹn</a></li>
-                                <li><a href="schedule-timings.html">Thời gian biểu</a></li>
-                                <li><a href="my-patients.html">Bệnh nhân của tôi</a></li>
-                                <li><a href="patient-profile.html">Hồ sơ bệnh nhân</a></li>
-                                <li><a href="chat-doctor.html">Trò chuyện</a></li>
-                                <li><a href="invoices.html">Hóa đơn</a></li>
-                                <li><a href="doctor-profile-settings.html">Cài đặt hồ sơ</a></li>
-                                <li><a href="reviews.html">Đánh giá</a></li>
-                                <li><a href="doctor-register.html">Đăng ký bác sĩ</a></li>
-                            </ul>
-                        </li>
+                        
                         <li class="has-submenu">
                             <a href="#">Bệnh nhân <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="search.html">Tìm kiếm bác sĩ</a></li>
+                                <li><a href="search.jsp">Tìm kiếm bác sĩ</a></li>
                                 <li><a href="doctor-profile.html">Hồ sơ bác sĩ</a></li>
                                 <li><a href="booking.html">Đặt lịch</a></li>
-                                <li><a href="checkout.html">Thanh toán</a></li>
-                                <li><a href="booking-success.html">Đặt lịch thành công</a></li>
-                                <li><a href="patient-dashboard.html">Bảng điều khiển của bệnh nhân</a></li>
+                                <li><a href="checkout.jsp">Thanh toán</a></li>
+                                <li><a href="booking-success.jsp">Đặt lịch thành công</a></li>
+                                <li><a href="patient-dashboard.jsp">Bảng điều khiển của bệnh nhân</a></li>
                                 <li><a href="favourites.html">Yêu thích</a></li>
                                 <li><a href="chat.html">Trò chuyện</a></li>
-                                <li><a href="profile-settings.html">Cài đặt hồ sơ</a></li>
+                                <li><a href="profile-settings.jsp">Cài đặt hồ sơ</a></li>
                                 <li><a href="change-password.html">Đổi mật khẩu</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="admin/index.html" target="_blank">Quản trị</a>
+                            <a href="admin/index.jsp" target="_blank">Quản trị</a>
                         </li>
                         <li class="login-link">
-                            <a href="login.html">Đăng nhập / Đăng ký</a>
+                            <a href="sign.jsp">Đăng nhập / Đăng ký</a>
 						</li>
 					</ul>
 					</div>
@@ -113,11 +99,54 @@
 							<div class="header-contact-detail">
 								<p class="contact-header">Liên hệ</p>
 								<p class="contact-info-header"> 0433636050</p>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link header-login" href="login.html">Đăng nhập / Đăng ký</a>
+						</div>
 					</li>
+
+						<!-- <%
+						// Lấy thông tin người dùng từ Session
+						HttpSession userSession  = request.getSession();
+						UserObject loggedInUser = (UserObject) userSession .getAttribute("loggedInUser");
+						
+						// Kiểm tra xem người dùng đã đăng nhập hay chưa
+						if (loggedInUser == null) {
+						    // Người dùng chưa đăng nhập
+						    response.sendRedirect("sign.jsp");
+						%>
+							
+						    <li class="nav-item">
+						        <a class="nav-link header-login" href="sign.jsp">Đăng nhập / Đăng ký</a>
+						    </li>
+						<%
+						} else {
+						    // Người dùng đã đăng nhập
+						%> -->
+						    <!-- User Menu -->
+						    <li class="nav-item dropdown has-arrow logged-item">
+						        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+						            <span class="user-img">
+						                <img class="rounded-circle" src="assets/img/patients/patient.jpg" width="31" alt="<%= loggedInUser.getUser_fullname() %>">
+						            </span>
+						        </a>
+						        <div class="dropdown-menu dropdown-menu-right">
+						            <div class="user-header">
+						                <div class="avatar avatar-sm">
+						                    <img src="assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
+						                </div>
+						                <div class="user-text">
+						                    <h6><%= loggedInUser.getUser_fullname() %></h6>
+						                    <p class="text-muted mb-0">Bệnh nhân</p>
+						                </div>
+						            </div>
+						            <a class="dropdown-item" href="patient-dashboard.jsp">Dashboard</a>
+						            <a class="dropdown-item" href="profile-settings.jsp">Cài đặt hồ sơ</a>
+						            <a class="dropdown-item" href="LogoutControl">Đăng xuất</a>
+						        </div>
+						    </li>
+						    <!-- /User Menu -->
+							<!-- <%
+							}
+							%> -->
+
 				</ul>
 			</nav>
 		</header>

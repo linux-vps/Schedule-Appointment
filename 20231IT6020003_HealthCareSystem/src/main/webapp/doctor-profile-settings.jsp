@@ -99,15 +99,7 @@
 					</ul>
 				</div>
 				<ul class="nav header-navbar-rht">
-					<li class="nav-item contact-item">
-						<div class="header-contact-img">
-							<i class="far fa-hospital"></i>
-						</div>
-						<div class="header-contact-detail">
-							<p class="contact-header">Contact</p>
-							<p class="contact-info-header"> +84 383 890 203</p>
-						</div>
-					</li>
+					
 
 					<%//get user information from session
 						HttpSession userSession = request.getSession();
@@ -119,6 +111,15 @@
 					    </li>
 					<% 
 						} else {%>
+						<li class="nav-item contact-item">
+						<div class="header-contact-img">
+							<i class="far fa-hospital"></i>
+						</div>
+						<div class="header-contact-detail">
+							<p class="contact-header">Contact</p>
+							<p class="contact-info-header"><%=loggedInUser.getUser_phone() %></p>
+						</div>
+					</li>
 						<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow logged-item">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">

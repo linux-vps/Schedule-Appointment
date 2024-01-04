@@ -95,15 +95,7 @@
 					</ul>
 				</div>
 				<ul class="nav header-navbar-rht">
-					<li class="nav-item contact-item">
-						<div class="header-contact-img">
-							<i class="far fa-hospital"></i>
-						</div>
-						<div class="header-contact-detail">
-							<p class="contact-header">Contact</p>
-							<p class="contact-info-header"> +1 315 369 5943</p>
-						</div>
-					</li>
+					
 
 					<%
 					//get user information from session
@@ -117,6 +109,15 @@
 					<%
 					} else {
 					%>
+					<li class="nav-item contact-item">
+						<div class="header-contact-img">
+							<i class="far fa-hospital"></i>
+						</div>
+						<div class="header-contact-detail">
+							<p class="contact-header">Contact</p>
+							<p class="contact-info-header"><%=loggedInUser.getUser_phone() %></p>
+						</div>
+					</li>
 						<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow logged-item">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -249,7 +250,7 @@
 						<div class="appointments">
 						<%
 						//get appointment
-										ArrayList<AppointmentObject> apps = a.getAppointmentByDoctorId(loggedInUser.getUser_id(), "Scheduled");
+										ArrayList<AppointmentObject> apps = a.getAppointmentByDoctorId(loggedInUser.getUser_id(), "Scheduled", "is not null ");
 										LocalDate today = LocalDate.now();
 										DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd, MMM yyyy");
 								        
@@ -262,7 +263,7 @@
 							<div class="appointment-list">
 								<div class="profile-info-widget">
 									<a href="patient-profile.html" class="booking-doc-img">
-										<img src="assets/img/patients/patient.jpg" alt="User Image">
+										<img src="<%=patient.getUser_avatar() %>" alt="User Image">
 									</a>
 									<div class="profile-det-info">
 										<h3><a href="patient-profile.html"><%=patient.getUser_fullname()%></a></h3>

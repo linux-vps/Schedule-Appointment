@@ -34,8 +34,8 @@ public class Appointment {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO tblappointment(");
         sql.append("app_date, app_time, app_status, app_created_date, ");
-        sql.append("app_modified_date, app_notes, app_deleted, user_id, app_doctor_image, app_doctor_name)");
-        sql.append("VALUES(?,?,?,?,?,?,?,?,?,?)");
+        sql.append("app_modified_date, app_notes, app_deleted, user_id) ");
+        sql.append("VALUES(?,?,?,?,?,?,?,?)");
 
         try {
             PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -47,8 +47,6 @@ public class Appointment {
             pre.setString(6, appointment.getApp_notes());
             pre.setBoolean(7, appointment.isApp_deleted());
             pre.setInt(8, appointment.getUser_id());
-            pre.setString(9, appointment.getApp_doctor_image());
-            pre.setString(10, appointment.getApp_doctor_name());
             int result = pre.executeUpdate();
             if (result == 0) {
                 this.con.rollback();
@@ -74,7 +72,7 @@ public class Appointment {
         sql.append("UPDATE tblappointment ");
         sql.append("SET "
                 + "app_date = ?, app_time = ?, app_status = ?, app_created_date = ?, "
-                + "app_modified_date = ?, app_notes = ?, app_deleted = ? ,user_id = ? , app_doctor_image = ?, app_doctor_name = ?");
+                + "app_modified_date = ?, app_notes = ?, app_deleted = ? ,user_id = ? ");
         sql.append(" WHERE app_id = ? ");
 
         try {
@@ -88,8 +86,6 @@ public class Appointment {
             pre.setBoolean(7, appointment.isApp_deleted());
             pre.setInt(8, appointment.getApp_id());
             pre.setInt(8, appointment.getUser_id());
-            pre.setString(9, appointment.getApp_doctor_image());
-            pre.setString(10, appointment.getApp_doctor_name());
 
             int result = pre.executeUpdate();
             if (result == 0) {
@@ -182,8 +178,6 @@ public class Appointment {
                     item.setApp_deleted(rs.getBoolean("app_deleted"));
                     item.setUser_id(rs.getInt("user_id"));
                     item.setDoctor_id(rs.getInt("doctor_id"));
-                    item.setApp_doctor_image(rs.getString("app_doctor_image"));
-                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
                     items.add(item);
                 }
@@ -265,8 +259,7 @@ public class Appointment {
                     item.setApp_notes(rs.getString("app_notes"));
                     item.setApp_deleted(rs.getBoolean("app_deleted"));
                     item.setUser_id(rs.getInt("user_id"));
-                    item.setApp_doctor_image(rs.getString("app_doctor_image"));
-                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
+                    item.setDoctor_id(rs.getInt("doctor_id"));
 
                     items.add(item);
                 }
@@ -332,12 +325,13 @@ public class Appointment {
     
     
     // SAC
-    public ArrayList<AppointmentObject> getAppointmentByDoctorId(int doctorId, String status) {
+    public ArrayList<AppointmentObject> getAppointmentByDoctorId(int doctorId, String status, String date) {
 		ArrayList<AppointmentObject> items = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblappointment ");
 		sql.append("WHERE doctor_id = ? and app_status = ? ");
-		sql.append("ORDER BY app_date ASC ");
+		sql.append("and app_date "+date+" ");
+		sql.append("ORDER BY STR_TO_DATE(app_date, '%d/%m/%Y') asc ");
 		
 		AppointmentObject item;
 		try {
@@ -358,8 +352,6 @@ public class Appointment {
 					item.setApp_notes(rs.getString("app_notes"));
 					item.setApp_deleted(rs.getBoolean("app_deleted"));
 					item.setUser_id(rs.getInt("user_id"));
-					item.setApp_doctor_image(rs.getString("app_doctor_image"));
-                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
 					items.add(item);
 				}
@@ -384,7 +376,7 @@ public class Appointment {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblappointment ");
 		sql.append("WHERE doctor_id = ? and app_status = ? and app_date = ? ");
-		sql.append("ORDER BY app_date ASC ");
+		sql.append("ORDER BY STR_TO_DATE(app_date, '%d/%m/%Y') asc ");
 		
 		AppointmentObject item;
 		try {
@@ -406,8 +398,6 @@ public class Appointment {
 					item.setApp_notes(rs.getString("app_notes"));
 					item.setApp_deleted(rs.getBoolean("app_deleted"));
 					item.setUser_id(rs.getInt("user_id"));
-					item.setApp_doctor_image(rs.getString("app_doctor_image"));
-                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
 					items.add(item);
 				}
@@ -432,7 +422,7 @@ public class Appointment {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblappointment ");
 		sql.append("WHERE user_id = ?");
-		sql.append("ORDER BY app_date ASC ");
+		sql.append("ORDER BY STR_TO_DATE(app_date, '%d/%m/%Y') asc ");
 		
 		AppointmentObject item;
 		try {
@@ -453,8 +443,6 @@ public class Appointment {
 					item.setApp_deleted(rs.getBoolean("app_deleted"));
 					item.setUser_id(rs.getInt("user_id"));
 					item.setDoctor_id(rs.getInt("doctor_id"));
-					item.setApp_doctor_image(rs.getString("app_doctor_image"));
-                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
 					items.add(item);
 				}
@@ -675,8 +663,6 @@ public class Appointment {
                     item.setApp_deleted(rs.getBoolean("app_deleted"));
                     item.setUser_id(rs.getInt("user_id"));
                     item.setDoctor_id(rs.getInt("doctor_id"));
-                    item.setApp_doctor_image(rs.getString("app_doctor_image"));
-                    item.setApp_doctor_name(rs.getString("app_doctor_name"));
 
                     items.add(item);
                 }

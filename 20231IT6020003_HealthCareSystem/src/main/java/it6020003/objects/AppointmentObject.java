@@ -13,8 +13,6 @@ public class AppointmentObject implements Serializable {
 	    private boolean app_deleted;
 	    private int user_id;
 	    private int doctor_id;
-	    private String app_doctor_image;
-		private String app_doctor_name;
 
 	    // Constructors, getters, and setters
 
@@ -23,7 +21,7 @@ public class AppointmentObject implements Serializable {
 
 	    public AppointmentObject(int app_id, String app_date, String app_time, String app_status,
 	                              String app_created_date, String app_modified_date, String app_notes,
-	                              boolean app_deleted, int user_id, String app_doctor_image,String app_doctor_name) {
+	                              boolean app_deleted, int user_id) {
 	        this.app_id = app_id;
 	        this.app_date = app_date;
 	        this.app_time = app_time;
@@ -33,8 +31,7 @@ public class AppointmentObject implements Serializable {
 	        this.app_notes = app_notes;
 	        this.app_deleted = app_deleted;
 	        this.user_id = user_id;
-	        this.app_doctor_image = app_doctor_image;
-	        this.app_doctor_name = app_doctor_name;
+
 	    }
 	    
 	    public int getDoctor_id() {
@@ -45,13 +42,6 @@ public class AppointmentObject implements Serializable {
 			this.doctor_id = doctor_id;
 		}
 
-		public String getApp_doctor_name() {
-			return app_doctor_name;
-		}
-
-		public void setApp_doctor_name(String app_doctor_name) {
-			this.app_doctor_name = app_doctor_name;
-		}
 	    public int getApp_id() {
 	        return app_id;
 	    }
@@ -125,19 +115,12 @@ public class AppointmentObject implements Serializable {
 		}
 
 
-		public String getApp_doctor_image() {
-			return app_doctor_image;
-		}
-
-		public void setApp_doctor_image(String app_doctor_image) {
-			this.app_doctor_image = app_doctor_image;
-		}
 	    @Override
 	    public String toString() {
 	        return String.format("AppointmentObject[id=%d, date=%s, time=%s, status=%s, " +
 	                        "created_date=%s, modified_date=%s, notes=%s, deleted=%s, user_id=%s, doctor_image=%s, doctor_name=%b]",
 	                app_id, app_date, app_time, app_status, app_created_date, app_modified_date,
-	                app_notes, app_deleted, user_id, app_doctor_image, app_doctor_name);
+	                app_notes, app_deleted, user_id);
 	    }
 
 }

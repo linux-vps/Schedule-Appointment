@@ -658,19 +658,19 @@
 		    resize: true,
 		    redraw: true
 		});
-		var data = []
+		var dataBarChart = []
 		var sortedData = []
 		<%	ArrayList<UserObject> doctorList = u.getAllDoctor(null);
 			for (UserObject doctor : doctorList) {	
 			int doctorApp = a.getTotalAppointment(doctor.getUser_id());%>
-			data.push({ y: '<%=doctor.getUser_id()%>', a: <%=doctorApp%> });
+			dataBarChart.push({ y: '<%=doctor.getUser_id()%>', a: <%=doctorApp%> });
 		<%} %>
-		sortedData = data.slice().sort(function(a, b) {
+		sortedData = dataBarChart.slice().sort(function(a, b) {
 		    var aA = parseInt(a.a, 10);
 		    var bA = parseInt(b.a, 10);
 		    return aA - bA;
 		});
-		var currentData = data;  // Initially set to the original data
+		var currentData = dataBarChart;  // Initially set to the original data
 
 		if (mC) {
 		    mC.setData(currentData);
@@ -687,14 +687,13 @@
 		        return true;
 		    }
 
-		    if (arraysEqual(currentData, data)) {
+		    if (arraysEqual(currentData, dataBarChart)) {
 		        // If the current data is the same as the original data, switch to sorted data
 		        currentData = sortedData;
 		    } else {
 		        // If the current data is not the same as the original data, switch back to original data
-		        currentData = data;
+		        currentData = dataBarChart;
 		    }
-		    console.log("dataB: " + currentData);
 		    if (mC) {
 		        mC.setData(currentData);
 		        mC.redraw();
@@ -752,9 +751,14 @@
             data: data,
             options: options
         });
-        if (myAreaChart) {
-	        mC.redraw();
-	    }
+        if (mC) {
+        	myAreaChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+        }
+
     </script>
     </body>
 

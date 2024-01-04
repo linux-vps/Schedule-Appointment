@@ -97,15 +97,7 @@
 					</ul>
 				</div>
 				<ul class="nav header-navbar-rht">
-					<li class="nav-item contact-item">
-						<div class="header-contact-img">
-							<i class="far fa-hospital"></i>
-						</div>
-						<div class="header-contact-detail">
-							<p class="contact-header">Contact</p>
-							<p class="contact-info-header"> +1 315 369 5943</p>
-						</div>
-					</li>
+					
 
 					<%
 					//get user information from session
@@ -119,6 +111,15 @@
 					<%
 					} else {
 					%>
+					<li class="nav-item contact-item">
+						<div class="header-contact-img">
+							<i class="far fa-hospital"></i>
+						</div>
+						<div class="header-contact-detail">
+							<p class="contact-header">Contact</p>
+							<p class="contact-info-header"> <%=loggedInUser.getUser_phone() %></p>
+						</div>
+					</li>
 						<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow logged-item">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -183,13 +184,13 @@
 							<div class="widget-profile pro-widget-content">
 								<div class="profile-info-widget">
 									<a href="#" class="booking-doc-img">
-										<img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+										<img src="<%=loggedInUser.getUser_avatar() %>" alt="User Image">
 									</a>
 									<div class="profile-det-info">
-										<h3>Dr. Darren Elder</h3>
+										<h3>Dr. <%=loggedInUser.getUser_fullname() %></h3>
 
 										<div class="patient-details">
-											<h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+											<h5 class="mb-0"><%= loggedInUser.getUser_jobarea() %></h5>
 										</div>
 									</div>
 								</div>

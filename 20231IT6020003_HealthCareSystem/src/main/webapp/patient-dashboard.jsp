@@ -1,3 +1,4 @@
+<%@page import="it6020003.process.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="it6020003.objects.UserObject" %>
 <%@ page import="jakarta.servlet.http.HttpSession"%>
@@ -310,17 +311,19 @@
 															int userId = loggedInUser.getUser_id();
 															//AppointmentObject newapm = new AppointmentObject();
 															Appointment apm = new Appointment();
+															User u = new User();
 															List<AppointmentObject> dsdatlich = apm.getAppointmentsByUserId(userId);
 														%>
 														<% 
-													           for (AppointmentObject appointment : dsdatlich) { %>
+													           for (AppointmentObject appointment : dsdatlich) { 
+													           UserObject doctor = u.getUserById(appointment.getDoctor_id());%>
 													            <tr>
 													                <td>
 													                    <h2 class="table-avatar">
 													                        <a href="doctor-profile.html" class="avatar avatar-sm mr-2">
-													                            <img class="avatar-img rounded-circle" src="<%= appointment.getApp_doctor_image() %>" alt="User Image">
+													                            <img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image">
 													                        </a>
-													                        <a href="doctor-profile.html"><%= appointment.getApp_doctor_name() %>
+													                        <a href="doctor-profile.html"><%= doctor.getUser_fullname() %>
 													                            </a>
 													                    </h2>
 													                </td>

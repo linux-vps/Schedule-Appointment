@@ -91,15 +91,6 @@
 					</ul>
 				</div>
 				<ul class="nav header-navbar-rht">
-					<li class="nav-item contact-item">
-						<div class="header-contact-img">
-							<i class="far fa-hospital"></i>
-						</div>
-						<div class="header-contact-detail">
-							<p class="contact-header">Contact</p>
-							<p class="contact-info-header">0433636050</p>
-						</div>
-					</li>
 					<%
 					//get user information from session
 									HttpSession userSession = request.getSession();
@@ -114,6 +105,15 @@
 					<%
 					} else {
 					%>
+					<li class="nav-item contact-item">
+						<div class="header-contact-img">
+							<i class="far fa-hospital"></i>
+						</div>
+						<div class="header-contact-detail">
+							<p class="contact-header">Contact</p>
+							<p class="contact-info-header"><%=loggedInUser.getUser_phone() %></p>
+						</div>
+					</li>
 						<!-- User Menu -->
 					<li class="nav-item dropdown has-arrow logged-item">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -259,7 +259,7 @@
 													<%
 													//get count 
 														LocalDate today = LocalDate.now();
-														DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+														DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 												        String formattedDate1 = today.format(formatter1);
 												        int total_patient = a.getTotalPatient(loggedInUser.getUser_id());
 												        int today_patient = a.getTotalPatientDate(formattedDate1, loggedInUser.getUser_id());
@@ -327,7 +327,9 @@
 												data-toggle="tab">Upcoming</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="#today-appointments" data-toggle="tab">Confirmed</a>
+											<a class="nav-link" href="#confirmed-appointments" data-toggle="tab">Confirmed</a>
+										</li><li class="nav-item">
+											<a class="nav-link" href="#today-appointments" data-toggle="tab">Today</a>
 										</li>
 									</ul>
 									<!-- /Appointment Tab -->
@@ -352,12 +354,12 @@
 															<tbody>
 															<%
 															//get doctor appointments
-																												int doctorId = loggedInUser.getUser_id();
-																												
-																												User u = new User(); //for getting user data from appointment
-																												ArrayList<AppointmentObject> apps = a.getAppointmentByDoctorId(doctorId, "Scheduled");
-																												for (AppointmentObject app : apps) {
-																													UserObject patient = u.getUserById(app.getUser_id());
+																int doctorId = loggedInUser.getUser_id();
+																
+																User u = new User(); //for getting user data from appointment
+																ArrayList<AppointmentObject> apps = a.getAppointmentByDoctorId(doctorId, "Scheduled", "is not null");
+																for (AppointmentObject app : apps) {
+																	UserObject patient = u.getUserById(app.getUser_id());
 															%>
 																<tr>
 																	<td>
@@ -365,7 +367,7 @@
 																			<a href=""
 																				class="avatar avatar-sm mr-2"><img
 																					class="avatar-img rounded-circle"
-																					src="assets/img/patients/patient.jpg"
+																					src="<%=patient.getUser_avatar() %>"
 																					alt="User Image"></a>
 																			<a href=""><%=patient.getUser_fullname()%> 
 																			<span>#<%=patient.getUser_id()%></span></a>
@@ -405,6 +407,70 @@
 											</div>
 										</div>
 										<!-- /Upcoming Appointment Tab -->
+										
+										<!-- Confirmed Appointment Tab -->
+										<div class="tab-pane" id="confirmed-appointments">
+											<div class="card card-table mb-0">
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table table-hover table-center mb-0">
+															<thead>
+																<tr>
+																	<th>Patient Name</th>
+																	<th>Appt Date</th>
+																	<th>Purpose</th>
+																	<th>Price</th>
+																	<th class="text-center"></th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody>
+															<%
+															// get confirmed appointment
+																DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+													        	String sqlDate = today.format(sqlFormatter);
+																ArrayList<AppointmentObject> confirmedApps = a.getAppointmentByDoctorId(doctorId,"Confirmed","is not null");
+															for (AppointmentObject app : confirmedApps) {
+																UserObject patient = u.getUserById(app.getUser_id());
+															%>
+																<tr>
+																	<td>
+																		<h2 class="table-avatar">
+																			<a href=""
+																				class="avatar avatar-sm mr-2"><img
+																					class="avatar-img rounded-circle"
+																					src="<%=patient.getUser_avatar() %>"
+																					alt="User Image"></a>
+																			<a href=""><%=patient.getUser_fullname()%> 
+																			<span>#<%=patient.getUser_id()%></span></a>
+																		</h2>
+																	</td>
+																	<td><%=app.getApp_date()%> <span
+																			class="d-block text-info"><%=app.getApp_time()%></span>
+																	</td>
+																	<td><%=app.getApp_notes()%></td>
+																	<td class="text-center">$150</td>
+																	<td class="text-right">
+																		<div class="table-action">
+																			<a href=""
+																				class="btn btn-sm bg-info-light" data-toggle="modal"
+																				data-target="#appt_details<%=app.getApp_id()%>">
+																				<i class="far fa-eye"></i> View
+																			</a>
+																		</div>
+																	</td>
+																</tr>
+															<%
+															}
+															%>
+
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /Confirmed Appointment Tab -->
 
 										<!-- Today Appointment Tab -->
 										<div class="tab-pane" id="today-appointments">
@@ -425,11 +491,9 @@
 															<tbody>
 															<%
 															// get today appointment
-																													DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-																										        	String sqlDate = today.format(sqlFormatter);
-																													ArrayList<AppointmentObject> todayApps = a.getAppointmentByDoctorId(doctorId,"Confirmed");
-																												for (AppointmentObject app : todayApps) {
-																													UserObject patient = u.getUserById(app.getUser_id());
+																ArrayList<AppointmentObject> todayApps = a.getAppointmentByDoctorId(doctorId,"Confirmed"," = "+sqlDate);
+															for (AppointmentObject app : todayApps) {
+																UserObject patient = u.getUserById(app.getUser_id());
 															%>
 																<tr>
 																	<td>
@@ -437,7 +501,7 @@
 																			<a href=""
 																				class="avatar avatar-sm mr-2"><img
 																					class="avatar-img rounded-circle"
-																					src="assets/img/patients/patient.jpg"
+																					src="<%=patient.getUser_avatar() %>"
 																					alt="User Image"></a>
 																			<a href=""><%=patient.getUser_fullname()%> 
 																			<span>#<%=patient.getUser_id()%></span></a>
