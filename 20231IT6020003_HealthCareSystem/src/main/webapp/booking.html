@@ -169,6 +169,8 @@
             var rating = decodeURIComponent(urlParams.get('rating'));
             var address = decodeURIComponent(urlParams.get('address'));
             var imageSrc = decodeURIComponent(urlParams.get('imageSrc'));
+            var doctorID = decodeURIComponent(urlParams.get('doctorID'));
+
 
             // Kiểm tra nếu doctorName bị null
 	        if (doctorName === null || doctorName === "null") {
@@ -180,10 +182,10 @@
 	            $('#rating').text(rating);
 	            $('#address').text(address);
 	            $('#doctorImage').attr('src', imageSrc);
+	            $('#doctorID').text(doctorID);
 	        }
         });
     </script>
-
       <!-- Page Content -->
       <div class="content">
         <div class="container">
@@ -198,7 +200,8 @@
                     </a>
                     <div class="booking-info">
                       <h4>
-                        <a href="doctor-profile.html"><span id="doctorName"></span></a>
+                        <a href="doctor-profile.html"><span id="doctorName"></span></a>                                  
+                   
                       </h4>
                       <div class="rating">
                         <i class="fas fa-star filled"></i>
@@ -259,7 +262,6 @@
           `);
         }
       });
-
       // Cập nhật ngày khi bấm nút trái
       $("#prevDay").on("click", function () {
         var firstDate = new Date($("ul li:first-child .slot-date").text());
@@ -668,6 +670,15 @@ $(document).ready(function () {
 	  // Lấy đường dẫn ảnh
 	  // var doctorImageSrc = $('#doctorImage').attr('src');
     var doctorImageSrc = $('.booking-doc-img img').attr('src');
+    var doctorID2 = doctorID;
+    
+    // Lấy thông tin từ URL
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+
+    // Hiển thị thông tin
+
+    var doctorID = decodeURIComponent(urlParams.get('doctorID'));
 
       var redirectURL = 'checkout.jsp' +
         '?doctorName=' + encodeURIComponent(doctorName) +
@@ -675,7 +686,8 @@ $(document).ready(function () {
         '&doctorLocation=' + encodeURIComponent(doctorLocation) +
         '&selectedTiming=' + encodeURIComponent(selectedTimingText) +
         '&selectedDate=' + encodeURIComponent(formattedSelectedDate) +
-		    '&doctorImageSrc=' + encodeURIComponent(doctorImageSrc);
+		    '&doctorImageSrc=' + encodeURIComponent(doctorImageSrc) +
+		    '&doctorID=' + encodeURIComponent(doctorID);
 
       window.location.href = redirectURL;
     }

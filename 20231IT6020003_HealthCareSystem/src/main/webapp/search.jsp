@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="it6020003.objects.UserObject" %>
 <%@ page import="jakarta.servlet.http.HttpSession"%>
+<%@ page import="it6020003.process.User"%>
+<%@ page import="it6020003.objects.SpecialityObject"%>
+<%@ page import="it6020003.process.Speciality"%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="vi">
 <%
@@ -139,6 +143,7 @@ if (loggedInUser == null) {
 						// Kiểm tra xem người dùng đã đăng nhập hay chưa
 						if (loggedInUser == null) {
 						    // Người dùng chưa đăng nhập
+						    response.sendRedirect("sign.jsp");
 						%>
 						    <li class="nav-item">
 						        <a class="nav-link header-login" href="sign.jsp">Đăng nhập / Đăng ký</a>
@@ -294,36 +299,41 @@ if (loggedInUser == null) {
 					</div>
 
 					<div class="col-md-12 col-lg-8 col-xl-9">
-					
-
+							<%
+							User doctor = new User();
+							UserObject doctorObject = new UserObject();
+							List<UserObject> docList = doctor.getUsersByRole("d");
+							Speciality sp = new Speciality();
+							SpecialityObject searchSP = new SpecialityObject();
+							for (UserObject doc : docList) {
+							%>
 						<!-- Doctor Widget -->
 						<div class="card">
 							<div class="card-body">
-								<div class="doctor-widget" id="doctorWidget1" >
+
+								<div class="doctor-widget" id="doctorWidget" >
 									<div class="doc-info-left">
 										<div class="doctor-img">
-											<a href="doctor-profile.html">
-												<img src="assets/img/doctors/doctor-thumb-01.jpg" class="img-fluid"
+											<a href="doctor-profile.html?id=<%=doc.getUser_id()%>">											
+												<img src="<%=doc.getUser_avatar() %>" class="img-fluid"
 													alt="User Image">
 											</a>
-										</div>
+										</div>									
+										<span style="display: none;" class = "doctorID"><%=doc.getUser_id() %></span>
 										<div class="doc-info-cont">
-											<h4 class="doc-name"><a href="doctor-profile.html">BSi. Lê Phương A</a></h4>
-											<p class="doc-speciality">Nha chu, cấy ghép miệng
+											<h4 class="doc-name"><a href="doctor-profile.html"><%=doc.getUser_fullname() %></a></h4>
+											<p class="doc-speciality"><%=sp.getDoctorSp(doc.getUser_parent_id()) %>
 											</p>
-											<h5 class="doc-department"><img
-													src="assets/img/specialities/specialities-05.png" class="img-fluid"
-													alt="Speciality">Nha sĩ</h5>
 											<div class="rating">
 												<i class="fas fa-star filled"></i>
 												<i class="fas fa-star filled"></i>
 												<i class="fas fa-star filled"></i>
 												<i class="fas fa-star filled"></i>
 												<i class="fas fa-star"></i>
-												<span class="d-inline-block average-rating">(17)</span>
+												<span class="d-inline-block average-rating">(<%=doc.getUser_actions() %>)</span>
 											</div>
 											<div class="clinic-details">
-												<p class="doc-location"><i class="fas fa-map-marker-alt"></i> Đan Phượng</p>
+												<p class="doc-location"><i class="fas fa-map-marker-alt"></i><%=doc.getUser_address() %></p>
 												<ul class="clinic-gallery">
 													<li>
 														<a href="assets/img/features/feature-01.jpg"
@@ -352,17 +362,15 @@ if (loggedInUser == null) {
 												</ul>
 											</div>
 											<div class="clinic-services">
-												<span> </span>
-												<span>  </span>
 											</div>
 										</div>
 									</div>
 									<div class="doc-info-right">
 										<div class="clini-infos">
 											<ul>
-												<li><i class="far fa-thumbs-up"></i> 98%</li>
-												<li><i class="far fa-comment"></i> 17 Đánh giá</li>
-												<li><i class="fas fa-map-marker-alt"></i> Florida, USA</li>
+												<li><i class="far fa-thumbs-up"></i> 100%</li>
+												<li><i class="far fa-comment"></i> <%=doc.getUser_actions() %> Đánh giá</li>
+												<li><i class="fas fa-map-marker-alt"></i><%=doc.getUser_jobarea() %></li>
 												<li><i class="far fa-money-bill-alt"></i> 30.000 Đồng <i
 														class="fas fa-info-circle" data-toggle="tooltip"
 														title="Lorem Ipsum"></i> </li>
@@ -377,333 +385,10 @@ if (loggedInUser == null) {
 							</div>
 						</div>
 						<!-- /Doctor Widget -->
-
-						<!-- Doctor Widget -->
-						<div class="card">
-							<div class="card-body">
-								<div class="doctor-widget" id="doctorWidget2">
-									<div class="doc-info-left">
-										<div class="doctor-img">
-											<a href="doctor-profile.html">
-												<img src="assets/img/doctors/doctor-thumb-02.jpg" class="img-fluid"
-													alt="User Image">
-											</a>
-										</div>
-										<div class="doc-info-cont">
-											<h4 class="doc-name"><a href="doctor-profile.html">Đào Trọng T</a></h4>
-											<p class="doc-speciality">Răng hàm mặt</p>
-											<h5 class="doc-department"><img
-													src="assets/img/specialities/specialities-05.png" class="img-fluid"
-													alt="Speciality"> Nha sĩ</h5>
-											<div class="rating">
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star"></i>
-												<span class="d-inline-block average-rating">(35)</span>
-											</div>
-											<div class="clinic-details">
-												<p class="doc-location"><i class="fas fa-map-marker-alt"></i>BVĐK Đan Phượng</p>
-												<ul class="clinic-gallery">
-													<li>
-														<a href="assets/img/features/feature-01.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-01.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-02.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-02.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-03.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-03.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-04.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-04.jpg" alt="Feature">
-														</a>
-													</li>
-												</ul>
-											</div>
-											<div class="clinic-services">
-												<span> </span>
-												<span>  </span>
-											</div>
-										</div>
-									</div>
-									<div class="doc-info-right">
-										<div class="clini-infos">
-											<ul>
-												<li><i class="far fa-thumbs-up"></i> 100%</li>
-												<li><i class="far fa-comment"></i> 35 Đánh giá</li>
-												<li><i class="fas fa-map-marker-alt"></i> BVĐK Đan Phượng</li>
-												<li><i class="far fa-money-bill-alt"></i> 30.000 Đồng <i
-														class="fas fa-info-circle" data-toggle="tooltip"
-														title="Lorem Ipsum"></i></li>
-											</ul>
-										</div>
-										<div class="clinic-booking">
-											<a class="view-pro-btn" href="doctor-profile.html">Xem hồ sơ</a>
-											<a class="apt-btn" href="booking.html">Đặt lịch khám bệnh</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Doctor Widget -->
-
-						<!-- Doctor Widget -->
-						<div class="card">
-							<div class="card-body">
-								<div class="doctor-widget" id="doctorWidget3">
-									<div class="doc-info-left">
-										<div class="doctor-img">
-											<a href="doctor-profile.html">
-												<img src="assets/img/doctors/doctor-thumb-03.jpg" class="img-fluid"
-													alt="User Image">
-											</a>
-										</div>
-										<div class="doc-info-cont">
-											<h4 class="doc-name"><a href="doctor-profile.html">Nguyễn Phương M</a>
-											</h4>
-											<p class="doc-speciality">Y tổng hợp, tim mạch</p>
-											<p class="doc-department"><img
-													src="assets/img/specialities/specialities-04.png" class="img-fluid"
-													alt="Speciality">Tim Mạch</p>
-											<div class="rating">
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star"></i>
-												<span class="d-inline-block average-rating">(27)</span>
-											</div>
-											<div class="clinic-details">
-												<p class="doc-location"><i class="fas fa-map-marker-alt"></i>BVĐK Đan Phượng</p>
-												<ul class="clinic-gallery">
-													<li>
-														<a href="assets/img/features/feature-01.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-01.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-02.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-02.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-03.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-03.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-04.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-04.jpg" alt="Feature">
-														</a>
-													</li>
-												</ul>
-											</div>
-											<div class="clinic-services">
-												<span> </span>
-												<span>  </span>
-											</div>
-										</div>
-									</div>
-									<div class="doc-info-right">
-										<div class="clini-infos">
-											<ul>
-												<li><i class="far fa-thumbs-up"></i> 99%</li>
-												<li><i class="far fa-comment"></i> 35 Đánh giá</li>
-												<li><i class="fas fa-map-marker-alt"></i> BVĐK Đan Phượng</li>
-												<li><i class="far fa-money-bill-alt"></i> 30.000 Đồng <i
-														class="fas fa-info-circle" data-toggle="tooltip"
-														title="Lorem Ipsum"></i></li>
-											</ul>
-										</div>
-										<div class="clinic-booking">
-											<a class="view-pro-btn" href="doctor-profile.html">Xem hồ sơ</a>
-											<a class="apt-btn" href="booking.html">Đặt lịch khám bệnh</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Doctor Widget -->
-
-						<!-- Doctor Widget -->
-						<div class="card">
-							<div class="card-body">
-								<div class="doctor-widget" id="doctorWidget4">
-									<div class="doc-info-left">
-										<div class="doctor-img">
-											<a href="doctor-profile.html">
-												<img src="assets/img/doctors/doctor-thumb-04.jpg" class="img-fluid"
-													alt="User Image">
-											</a>
-										</div>
-										<div class="doc-info-cont">
-											<h4 class="doc-name"><a href="doctor-profile.html">Nguyễn Mai H</a></h4>
-											<p class="doc-speciality">Phẫu thuật tổng quát, tiết niệu</p>
-											<p class="doc-department"><img
-													src="assets/img/specialities/specialities-01.png" class="img-fluid"
-													alt="Speciality">Tiết niệu</p>
-											<div class="rating">
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star"></i>
-												<span class="d-inline-block average-rating">(4)</span>
-											</div>
-											<div class="clinic-details">
-												<p class="doc-location"><i class="fas fa-map-marker-alt"></i>BVĐK Đan Phượng</p>
-												<ul class="clinic-gallery">
-													<li>
-														<a href="assets/img/features/feature-01.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-01.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-02.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-02.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-03.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-03.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-04.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-04.jpg" alt="Feature">
-														</a>
-													</li>
-												</ul>
-											</div>
-											<div class="clinic-services">
-												<span> </span>
-												<span>  </span>
-											</div>
-										</div>
-									</div>
-									<div class="doc-info-right">
-										<div class="clini-infos">
-											<ul>
-												<li><i class="far fa-thumbs-up"></i> 97%</li>
-												<li><i class="far fa-comment"></i> 4 Đánh giá</li>
-												<li><i class="fas fa-map-marker-alt"></i> BVĐK Đan Phượng</li>
-												<li><i class="far fa-money-bill-alt"></i> 30.000 Đồng <i
-														class="fas fa-info-circle" data-toggle="tooltip"
-														title="Lorem Ipsum"></i></li>
-											</ul>
-										</div>
-										<div class="clinic-booking">
-											<a class="view-pro-btn" href="doctor-profile.html">Xem hồ sơ</a>
-											<a class="apt-btn" href="booking.html">Đặt lịch khám bệnh</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Doctor Widget -->
-
-						<!-- Doctor Widget -->
-						<div class="card">
-							<div class="card-body">
-								<div class="doctor-widget" id="doctorWidget5">
-									<div class="doc-info-left">
-										<div class="doctor-img">
-											<a href="doctor-profile.html">
-												<img src="assets/img/doctors/doctor-thumb-06.jpg" class="img-fluid"
-													alt="User Image">
-											</a>
-										</div>
-										<div class="doc-info-cont">
-											<h4 class="doc-name"><a href="doctor-profile.html">Nguyễn Thị T
-													</a></h4>
-											<p class="doc-speciality">Chỉnh hình</p>
-											<p class="doc-department"><img
-													src="assets/img/specialities/specialities-03.png" class="img-fluid"
-													alt="Speciality">Chỉnh hình</p>
-											<div class="rating">
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star filled"></i>
-												<i class="fas fa-star"></i>
-												<span class="d-inline-block average-rating">(52)</span>
-											</div>
-											<div class="clinic-details">
-												<p class="doc-location"><i class="fas fa-map-marker-alt"></i> BVĐK Đan Phượng
-												</p>
-												<ul class="clinic-gallery">
-													<li>
-														<a href="assets/img/features/feature-01.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-01.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-02.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-02.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-03.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-03.jpg" alt="Feature">
-														</a>
-													</li>
-													<li>
-														<a href="assets/img/features/feature-04.jpg"
-															data-fancybox="gallery">
-															<img src="assets/img/features/feature-04.jpg" alt="Feature">
-														</a>
-													</li>
-												</ul>
-											</div>
-											<div class="clinic-services">
-												<span> </span>
-												<span>  </span>
-											</div>
-										</div>
-									</div>
-									<div class="doc-info-right">
-										<div class="clini-infos">
-											<ul>
-												<li><i class="far fa-thumbs-up"></i> 100%</li>
-												<li><i class="far fa-comment"></i> 52 Đánh giá</li>
-												<li><i class="fas fa-map-marker-alt"></i> BVĐK Đan Phượng</li>
-												<li><i class="far fa-money-bill-alt"></i> 30.000 Đồng <i
-														class="fas fa-info-circle" data-toggle="tooltip"
-														title="Lorem Ipsum"></i></li>
-											</ul>
-										</div>
-										<div class="clinic-booking">
-											<a class="view-pro-btn" href="doctor-profile.html">Xem hồ sơ</a>
-											<a class="apt-btn" href="booking.html">Đặt lịch khám bệnh</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Doctor Widget -->
+						<%
+						}
+						%>
+						
 
 						<div class="load-more text-center">
 							<a class="btn btn-primary btn-sm" href="javascript:void(0);">Xem thêm</a>
@@ -903,13 +588,15 @@ if (loggedInUser == null) {
             var rating = doctorWidget.find('.average-rating').text();
             var address = doctorWidget.find('.doc-location').text();
             var imageSrc = doctorWidget.find('.doctor-img img').attr('src');
+            var doctorID = doctorWidget.find('.doctorID').text();
 
             // Chuyển hướng tới trang booking.html và truyền các thông tin
             var redirectURL = 'booking.html' +
                 '?doctorName=' + encodeURIComponent(doctorName) +
                 '&rating=' + encodeURIComponent(rating) +
                 '&address=' + encodeURIComponent(address) +
-                '&imageSrc=' + encodeURIComponent(imageSrc);
+                '&imageSrc=' + encodeURIComponent(imageSrc)+
+                '&doctorID=' + encodeURIComponent(doctorID);
 
             window.location.href = redirectURL;
         });

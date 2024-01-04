@@ -3,9 +3,9 @@ package it6020003.process;
 import java.util.*;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-
 import it6020003.*;
 import it6020003.objects.*;
 
@@ -34,8 +34,8 @@ public class Appointment {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO tblappointment(");
         sql.append("app_date, app_time, app_status, app_created_date, ");
-        sql.append("app_modified_date, app_notes, app_deleted, user_id) ");
-        sql.append("VALUES(?,?,?,?,?,?,?,?)");
+        sql.append("app_modified_date, app_notes, app_deleted, user_id, doctor_id) ");
+        sql.append("VALUES(?,?,?,?,?,?,?,?,?)");
 
         try {
             PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -47,6 +47,7 @@ public class Appointment {
             pre.setString(6, appointment.getApp_notes());
             pre.setBoolean(7, appointment.isApp_deleted());
             pre.setInt(8, appointment.getUser_id());
+            pre.setInt(9, appointment.getDoctor_id());
             int result = pre.executeUpdate();
             if (result == 0) {
                 this.con.rollback();
@@ -601,9 +602,11 @@ public class Appointment {
 				sql.append("WHERE app_id = ?"); // update by id
 				
 				//set date
-				LocalDate currentDate = LocalDate.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				String formattedDate = currentDate.format(formatter);
+		        Calendar c = Calendar.getInstance();
+		        Date currentDate = c.getTime();
+
+		        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		        String formattedDate = formatter.format(currentDate);
 				
 				try {
 					PreparedStatement pre = this.con.prepareStatement(sql.toString());

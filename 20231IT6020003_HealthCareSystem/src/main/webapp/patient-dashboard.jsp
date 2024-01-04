@@ -335,8 +335,7 @@
 																		class="badge badge-pill bg-success-light"><%= appointment.getApp_status() %></span>
 																</td>
 																<td class="text-right">
-																	<div class="table-action">
-																	
+																	<div class="table-action">																	
 																		<a href="CancelAppointment?id=<%=appointment.getApp_id()%>"
 																			class="btn btn-sm bg-primary-light">
 																			<i class="fas close"></i> Huỷ

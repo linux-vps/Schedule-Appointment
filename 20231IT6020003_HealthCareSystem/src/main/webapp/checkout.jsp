@@ -207,6 +207,8 @@
 							    String email = loggedInUser.getUser_email();
 							    String phone = loggedInUser.getUser_phone();
 							    String address = loggedInUser.getUser_address();
+							    int userID = loggedInUser.getUser_id();
+							    
 					
 							%>
 								<!-- Checkout Form -->
@@ -217,11 +219,16 @@
 								String selectedTiming = request.getParameter("selectedTiming");
 								String selectedDate = request.getParameter("selectedDate");
 								String doctorImageSrc = request.getParameter("doctorImageSrc");
+								String doctorIDString = request.getParameter("doctorID");
+								
 								%>
 									<input type="hidden" name="doctorNameHidden" value="<%=doctorName %>" style="display: none;">
 									<input type="hidden" name="selectedTimingHidden" value="<%=selectedTiming %>" style="display: none;">
 									<input type="hidden" name="selectedDateHidden" value="<%=selectedDate %>" style="display: none;">
 									<input type="hidden" name="doctorImageSrcHidden" value="<%=doctorImageSrc %>" style="display: none;">
+									<input type="hidden" name="userID" value="<%=userID %>" style="display: none;">
+									<input type="hidden" name="doctorID" value="<%=doctorIDString %>" style="display: none;">
+									
 									<!-- Personal Information -->
 									<div class="info-widget" id="personalInfo">
 										<h4 class="card-title">Thông tin cá nhân</h4>
@@ -336,6 +343,7 @@
     var selectedTiming = getParameterByName('selectedTiming');
     var selectedDate = getParameterByName('selectedDate');
 	var doctorImageSrc = getParameterByName('doctorImageSrc');
+	var doctorID = getParameterByName('doctorID');
 
     // Hiển thị thông tin lên trang
     $('#doctorName').text(doctorName);
@@ -344,6 +352,7 @@
     $('#selectedTiming').text(selectedTiming);
     $('#selectedDate').text(selectedDate);
 	$('#doctorImageSrc').attr('src', doctorImageSrc);
+	$('#doctorID').text(doctorID);
   });
 </script>
 <!-- Kết thúc mã JavaScript và jQuery -->

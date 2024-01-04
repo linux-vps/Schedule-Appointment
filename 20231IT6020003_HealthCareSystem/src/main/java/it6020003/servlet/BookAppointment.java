@@ -63,7 +63,11 @@ public class BookAppointment extends HttpServlet {
     	String doctorName = request.getParameter("doctorNameHidden");
     	String selectedDate = request.getParameter("selectedTimingHidden");
     	String selectedTiming = request.getParameter("selectedDateHidden");
-    	String imgpath = request.getParameter("doctorImageSrcHidden");
+    	String doctorIDString = request.getParameter("doctorID");
+    	 int doctorID = Integer.parseInt(doctorIDString);
+    	 newAppointment.setDoctor_id(doctorID);
+    	System.out.print("ID ở đây:");
+    	System.out.print(doctorIDString);
         // Đặt lịch thành công, thêm cuộc hẹn vào cơ sở dữ liệu
         boolean bookingSuccess = app.addAppointment(newAppointment);
     	
