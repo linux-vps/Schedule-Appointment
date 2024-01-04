@@ -44,6 +44,20 @@ $(document).ready(function() {
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
+        <!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		
+		<!-- Bootstrap Table CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.3/bootstrap-table.min.css">
+		
+		<!-- Bootstrap JS and Popper.js -->
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		
+		<!-- Bootstrap Table JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.3/bootstrap-table.min.js"></script>
+		        
 		
 		<!--[if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
@@ -342,12 +356,12 @@ $(document).ready(function() {
 							<div class="card">
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="datatable table table-hover table-center mb-0">
+										<table id="myTable" class="datatable table table-hover table-center mb-0" data-toggle="table" data-sort-order="desc" data-sort-name="column1">
 											<thead>
 												<tr>
-													<th>#</th>
-													<th>Specialities</th>
-													<th class="text-right">Actions</th>
+													<th data-field="column1" class="sorting">#</th>
+									                <th data-field="column2" class="sorting">Specialities</th>
+									                <th data-field="column3" class="text-right sorting">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
