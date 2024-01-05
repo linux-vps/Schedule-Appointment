@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Doccure</title>
+	<title>Đan Phượng Hospital</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
 	<!-- Favicons -->
@@ -37,7 +37,8 @@
 <body>
 <%
 //get logged user
-	UserObject loggedInUser = (UserObject) session.getAttribute("loggedInUser");
+	HttpSession userSession = request.getSession();
+	UserObject loggedInUser = (UserObject) userSession.getAttribute("loggedInUser");
 	Appointment a = new Appointment();
 	User u = new User();
 %>
@@ -99,12 +100,13 @@
 
 					<%
 					//get user information from session
-									HttpSession userSession = request.getSession();
+									
 									if (loggedInUser == null) {
 										response.sendRedirect("sign.jsp");
+										
 					%>
 						<li class="nav-item">
-					        <a class="nav-link header-login" href="login.jsp">Đăng nhập / Đăng ký</a>
+					        <a class="nav-link header-login" href="sign.jsp">Đăng nhập / Đăng ký</a>
 					    </li>
 					<%
 					} else {

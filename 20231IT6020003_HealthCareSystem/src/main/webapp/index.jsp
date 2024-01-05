@@ -169,7 +169,11 @@
 								<div class="banner-header text-center">
 									<h1>Bệnh viện đa khoa Đan Phượng</h1>
 									<p></p>
+									<%if (loggedInUser != null){ %>
 									<a href="search.jsp">Đặt lịch ngay</a>
+									<%} else { %>
+									<a href="sign.jsp">Đặt lịch ngay</a>
+									<%} %>
 								</div>
 					<!-- Tìm kiếm -->
 

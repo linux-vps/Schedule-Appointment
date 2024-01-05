@@ -6,6 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.time.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Dan Phuong Hospital</title>
+	<title>Đan Phượng Hospital</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
 	<!-- Favicons -->
@@ -91,14 +92,18 @@
 					</ul>
 				</div>
 				<ul class="nav header-navbar-rht">
+				
 					<%
 					//get user information from session
 									HttpSession userSession = request.getSession();
 									UserObject loggedInUser = (UserObject) userSession.getAttribute("loggedInUser");
 									Appointment a = new Appointment(); //init
 									if (loggedInUser == null) {
-										response.sendRedirect("sign.jsp");
-					%>
+										response.sendRedirect("sign.jsp");%>
+									
+<%-- 									<c:if test="${loggedInUser == null }">
+									<jsp:forward page="sign.jsp" />
+									</c:if>	 --%>
 						<li class="nav-item">
 					        <a class="nav-link header-login" href="login.jsp">Đăng nhập / Đăng ký</a>
 					    </li>
@@ -209,7 +214,7 @@
 											</a>
 										</li>
 										<li>
-											<a href="">
+											<a href="schedule-timings.jsp">
 												<i class="fas fa-hourglass-start"></i>
 												<span>Schedule Timings</span>
 											</a>
@@ -228,7 +233,7 @@
 										</li>
 
 										<li>
-											<a href="">
+											<a href="LogoutControl">
 												<i class="fas fa-sign-out-alt"></i>
 												<span>Logout</span>
 											</a>
@@ -588,25 +593,6 @@
 
 						</div>
 
-						<div class="col-lg-3 col-md-6">
-
-							<!-- Footer Widget -->
-							<div class="footer-widget footer-menu">
-								<h2 class="footer-title">Dành cho bệnh nhân</h2>
-								<ul>
-									<li><a href="search.jsp"><i class="fas fa-angle-double-right"></i> Tìm kiếm bác sĩ</a></li>
-									<li><a href="sign.jsp"><i class="fas fa-angle-double-right"></i> Đăng nhập</a></li>
-									<li><a href="register.html"><i class="fas fa-angle-double-right"></i> Đăng kí</a>
-									</li>
-									<li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Đặt lịch</a>
-									</li>
-									<li><a href="patient-dashboard.jsp"><i class="fas fa-angle-double-right"></i>
-											Bảng kiểm soát lịch hẹn</a></li>
-								</ul>
-							</div>
-							<!-- /Footer Widget -->
-
-						</div>
 
 						<div class="col-lg-3 col-md-6">
 
@@ -614,13 +600,11 @@
 							<div class="footer-widget footer-menu">
 								<h2 class="footer-title">Bác sĩ</h2>
 								<ul>
-									<li><a href="appointments.html"><i class="fas fa-angle-double-right"></i>
+									<li><a href=""><i class="fas fa-angle-double-right"></i>
 											Kiểm tra cuộc hẹn</a></li>
-									<li><a href="chat.html"><i class="fas fa-angle-double-right"></i> Chat</a></li>
-									<li><a href="sign.jsp"><i class="fas fa-angle-double-right"></i> Đăng nhập</a></li>
-									<li><a href="doctor-register.html"><i class="fas fa-angle-double-right"></i>
-											Đăng kí</a></li>
-									<li><a href="doctor-dashboard.html"><i class="fas fa-angle-double-right"></i>Dashboard của bác sĩ</a></li>
+									<li><a href=""><i class="fas fa-angle-double-right"></i> Chat</a></li>
+									<li><a href=""><i class="fas fa-angle-double-right"></i> Đăng nhập</a></li>
+									<li><a href=""><i class="fas fa-angle-double-right"></i>Dashboard của bác sĩ</a></li>
 								</ul>
 							</div>
 							<!-- /Footer Widget -->

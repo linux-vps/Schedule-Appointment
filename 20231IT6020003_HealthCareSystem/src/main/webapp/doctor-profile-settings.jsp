@@ -107,7 +107,7 @@
 							response.sendRedirect("sign.jsp");
 						%>
 						<li class="nav-item">
-					        <a class="nav-link header-login" href="login.jsp">Đăng nhập / Đăng ký</a>
+					        <a class="nav-link header-login" href="sign.jsp">Đăng nhập / Đăng ký</a>
 					    </li>
 					<% 
 						} else {%>

@@ -385,6 +385,8 @@
 						</div>
 					</div>
 					<div class="row">
+					</div>
+					<div class="row">
 						<div class="col-md-12">
 						
 							<!-- Sales Chart -->
@@ -477,8 +479,8 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
-															<a href="profile.html">Dr. <%=doctor.getUser_fullname()  %></a>
+															<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
+															<a href="">Dr. <%=doctor.getUser_fullname()  %></a>
 														</h2>
 													</td>
 													<td><%=sp.getDoctorSp(doctor.getUser_parent_id()) %></td>
@@ -530,8 +532,8 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
-															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
+															<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
+															<a href=""><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
 													<td><%=patient.getUser_phone() %></td>
@@ -579,15 +581,15 @@
 												<tr>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
-															<a href="profile.html">Dr. <%=doctor.getUser_fullname() %></a>
+															<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=doctor.getUser_avatar() %>" alt="User Image"></a>
+															<a href="">Dr. <%=doctor.getUser_fullname() %></a>
 														</h2>
 													</td>
 													<td><%=sp.getDoctorSp(doctor.getUser_parent_id())%></td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
-															<a href="profile.html"><%=patient.getUser_fullname() %> </a>
+															<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<%=patient.getUser_avatar() %>" alt="User Image"></a>
+															<a href=""><%=patient.getUser_fullname() %> </a>
 														</h2>
 													</td>
 													<td><%=app.getApp_date() %> <span class="text-primary d-block"><%=app.getApp_time() %></span></td>
@@ -751,16 +753,6 @@
             data: data,
             options: options
         });
-        if (mC) {
-        	myAreaChart = new Chart(ctx, {
-                type: 'line',
-                data: data,
-                options: options
-            });
-        }
-
-    </script>
-    </body>
 
 <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:34 GMT -->
 </html>
