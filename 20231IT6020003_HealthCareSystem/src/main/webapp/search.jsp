@@ -194,7 +194,7 @@ if (loggedInUser == null) {
 								<li class="breadcrumb-item active" aria-current="page">Tìm kiếm bác sĩ</li>
 							</ol>
 						</nav>
-						<h2 class="breadcrumb-title">5 kết quả được tìm thấy</h2>
+						<h2 class="breadcrumb-title">Kết quả được tìm thấy</h2>
 					</div>
 					<div class="col-md-4 col-12 d-md-block d-none">
 						<div class="sort-by">

@@ -498,24 +498,6 @@
 
 						</div>
 
-
-						<div class="col-lg-3 col-md-6">
-
-							<!-- Footer Widget -->
-							<div class="footer-widget footer-menu">
-								<h2 class="footer-title">Bác sĩ</h2>
-								<ul>
-									<li><a href=""><i class="fas fa-angle-double-right"></i>
-											Kiểm tra cuộc hẹn</a></li>
-									<li><a href=""><i class="fas fa-angle-double-right"></i> Chat</a></li>
-									<li><a href="sign.jsp"><i class="fas fa-angle-double-right"></i> Đăng nhập</a></li>
-									<li><a href=""><i class="fas fa-angle-double-right"></i>Dashboard của bác sĩ</a></li>
-								</ul>
-							</div>
-							<!-- /Footer Widget -->
-
-						</div>
-
 						<div class="col-lg-3 col-md-6">
 
 							<!-- Footer Widget -->
